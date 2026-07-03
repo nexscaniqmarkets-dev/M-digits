@@ -1,0 +1,1233 @@
+{
+  "balance": 10428.1,
+  "trades": [
+    {
+      "id": "trade_1783091840806_807",
+      "timestamp": "2026-07-03T15:17:20.806Z",
+      "symbol": "R_10",
+      "predictionDigit": 7,
+      "triggerDigit": 5,
+      "stake": 10,
+      "payout": 90.9,
+      "profit": 80.9,
+      "result": "WIN",
+      "entryPrice": 125.75,
+      "entryEpoch": 1783091840,
+      "entryDigit": 5,
+      "exitPrice": 125.77,
+      "exitEpoch": 1783091842,
+      "exitDigit": 7,
+      "balanceAfter": 10428.1
+    },
+    {
+      "id": "trade_1783091833305_707",
+      "timestamp": "2026-07-03T15:17:13.305Z",
+      "symbol": "R_10",
+      "predictionDigit": 7,
+      "triggerDigit": 5,
+      "stake": 10,
+      "payout": 90.9,
+      "profit": 80.9,
+      "result": "WIN",
+      "entryPrice": 125.75,
+      "entryEpoch": 1783091833,
+      "entryDigit": 5,
+      "exitPrice": 125.77,
+      "exitEpoch": 1783091834,
+      "exitDigit": 7,
+      "balanceAfter": 10347.2
+    },
+    {
+      "id": "trade_1783091831803_412",
+      "timestamp": "2026-07-03T15:17:11.803Z",
+      "symbol": "R_10",
+      "predictionDigit": 7,
+      "triggerDigit": 6,
+      "stake": 10,
+      "payout": 0,
+      "profit": -10,
+      "result": "LOSS",
+      "entryPrice": 125.76,
+      "entryEpoch": 1783091831,
+      "entryDigit": 6,
+      "exitPrice": 125.75,
+      "exitEpoch": 1783091833,
+      "exitDigit": 5,
+      "balanceAfter": 10266.3
+    },
+    {
+      "id": "trade_1783091486620_652",
+      "timestamp": "2026-07-03T15:11:26.620Z",
+      "symbol": "R_10",
+      "predictionDigit": 1,
+      "triggerDigit": 3,
+      "stake": 10,
+      "payout": 0,
+      "profit": -10,
+      "result": "LOSS",
+      "entryPrice": 125.43,
+      "entryEpoch": 1783091486,
+      "entryDigit": 3,
+      "exitPrice": 125.42,
+      "exitEpoch": 1783091488,
+      "exitDigit": 2,
+      "balanceAfter": 10276.3
+    },
+    {
+      "id": "trade_1783091483617_690",
+      "timestamp": "2026-07-03T15:11:23.617Z",
+      "symbol": "R_10",
+      "predictionDigit": 1,
+      "triggerDigit": 3,
+      "stake": 10,
+      "payout": 0,
+      "profit": -10,
+      "result": "LOSS",
+      "entryPrice": 125.43,
+      "entryEpoch": 1783091483,
+      "entryDigit": 3,
+      "exitPrice": 125.44,
+      "exitEpoch": 1783091485,
+      "exitDigit": 4,
+      "balanceAfter": 10286.3
+    },
+    {
+      "id": "trade_1783091441599_594",
+      "timestamp": "2026-07-03T15:10:41.599Z",
+      "symbol": "R_10",
+      "predictionDigit": 4,
+      "triggerDigit": 2,
+      "stake": 10,
+      "payout": 0,
+      "profit": -10,
+      "result": "LOSS",
+      "entryPrice": 125.42,
+      "entryEpoch": 1783091441,
+      "entryDigit": 2,
+      "exitPrice": 125.41,
+      "exitEpoch": 1783091443,
+      "exitDigit": 1,
+      "balanceAfter": 10296.3
+    },
+    {
+      "id": "trade_1783091434093_164",
+      "timestamp": "2026-07-03T15:10:34.093Z",
+      "symbol": "R_10",
+      "predictionDigit": 4,
+      "triggerDigit": 5,
+      "stake": 10,
+      "payout": 90.9,
+      "profit": 80.9,
+      "result": "WIN",
+      "entryPrice": 125.45,
+      "entryEpoch": 1783091434,
+      "entryDigit": 5,
+      "exitPrice": 125.44,
+      "exitEpoch": 1783091435,
+      "exitDigit": 4,
+      "balanceAfter": 10306.3
+    },
+    {
+      "id": "trade_1783091245010_164",
+      "timestamp": "2026-07-03T15:07:25.010Z",
+      "symbol": "R_10",
+      "predictionDigit": 3,
+      "triggerDigit": 8,
+      "stake": 10,
+      "payout": 0,
+      "profit": -10,
+      "result": "LOSS",
+      "entryPrice": 125.38,
+      "entryEpoch": 1783091245,
+      "entryDigit": 8,
+      "exitPrice": 125.36,
+      "exitEpoch": 1783091246,
+      "exitDigit": 6,
+      "balanceAfter": 10225.4
+    },
+    {
+      "id": "trade_1783091231495_19",
+      "timestamp": "2026-07-03T15:07:11.495Z",
+      "symbol": "R_10",
+      "predictionDigit": 5,
+      "triggerDigit": 3,
+      "stake": 10,
+      "payout": 0,
+      "profit": -10,
+      "result": "LOSS",
+      "entryPrice": 125.43,
+      "entryEpoch": 1783091231,
+      "entryDigit": 3,
+      "exitPrice": 125.42,
+      "exitEpoch": 1783091232,
+      "exitDigit": 2,
+      "balanceAfter": 10235.4
+    },
+    {
+      "id": "trade_1783091229993_593",
+      "timestamp": "2026-07-03T15:07:09.993Z",
+      "symbol": "R_10",
+      "predictionDigit": 5,
+      "triggerDigit": 3,
+      "stake": 10,
+      "payout": 0,
+      "profit": -10,
+      "result": "LOSS",
+      "entryPrice": 125.43,
+      "entryEpoch": 1783091229,
+      "entryDigit": 3,
+      "exitPrice": 125.43,
+      "exitEpoch": 1783091231,
+      "exitDigit": 3,
+      "balanceAfter": 10245.4
+    },
+    {
+      "id": "trade_1783091208983_91",
+      "timestamp": "2026-07-03T15:06:48.983Z",
+      "symbol": "R_10",
+      "predictionDigit": 9,
+      "triggerDigit": 8,
+      "stake": 10,
+      "payout": 0,
+      "profit": -10,
+      "result": "LOSS",
+      "entryPrice": 125.48,
+      "entryEpoch": 1783091208,
+      "entryDigit": 8,
+      "exitPrice": 125.5,
+      "exitEpoch": 1783091210,
+      "exitDigit": 0,
+      "balanceAfter": 10255.4
+    },
+    {
+      "id": "trade_1783091180471_81",
+      "timestamp": "2026-07-03T15:06:20.471Z",
+      "symbol": "R_10",
+      "predictionDigit": 5,
+      "triggerDigit": 1,
+      "stake": 10,
+      "payout": 0,
+      "profit": -10,
+      "result": "LOSS",
+      "entryPrice": 125.31,
+      "entryEpoch": 1783091180,
+      "entryDigit": 1,
+      "exitPrice": 125.33,
+      "exitEpoch": 1783091181,
+      "exitDigit": 3,
+      "balanceAfter": 10265.4
+    },
+    {
+      "id": "trade_1783091174469_774",
+      "timestamp": "2026-07-03T15:06:14.469Z",
+      "symbol": "R_10",
+      "predictionDigit": 5,
+      "triggerDigit": 2,
+      "stake": 10,
+      "payout": 0,
+      "profit": -10,
+      "result": "LOSS",
+      "entryPrice": 125.32,
+      "entryEpoch": 1783091174,
+      "entryDigit": 2,
+      "exitPrice": 125.31,
+      "exitEpoch": 1783091175,
+      "exitDigit": 1,
+      "balanceAfter": 10275.4
+    },
+    {
+      "id": "trade_1783091154958_91",
+      "timestamp": "2026-07-03T15:05:54.958Z",
+      "symbol": "R_10",
+      "predictionDigit": 0,
+      "triggerDigit": 2,
+      "stake": 10,
+      "payout": 0,
+      "profit": -10,
+      "result": "LOSS",
+      "entryPrice": 125.32,
+      "entryEpoch": 1783091154,
+      "entryDigit": 2,
+      "exitPrice": 125.33,
+      "exitEpoch": 1783091156,
+      "exitDigit": 3,
+      "balanceAfter": 10285.4
+    },
+    {
+      "id": "trade_1783091100928_778",
+      "timestamp": "2026-07-03T15:05:00.928Z",
+      "symbol": "R_10",
+      "predictionDigit": 0,
+      "triggerDigit": 9,
+      "stake": 10,
+      "payout": 0,
+      "profit": -10,
+      "result": "LOSS",
+      "entryPrice": 125.39,
+      "entryEpoch": 1783091100,
+      "entryDigit": 9,
+      "exitPrice": 125.41,
+      "exitEpoch": 1783091102,
+      "exitDigit": 1,
+      "balanceAfter": 10295.4
+    },
+    {
+      "id": "trade_1783091097927_168",
+      "timestamp": "2026-07-03T15:04:57.927Z",
+      "symbol": "R_10",
+      "predictionDigit": 0,
+      "triggerDigit": 9,
+      "stake": 10,
+      "payout": 90.9,
+      "profit": 80.9,
+      "result": "WIN",
+      "entryPrice": 125.39,
+      "entryEpoch": 1783091097,
+      "entryDigit": 9,
+      "exitPrice": 125.4,
+      "exitEpoch": 1783091099,
+      "exitDigit": 0,
+      "balanceAfter": 10305.4
+    }
+  ],
+  "logs": [
+    {
+      "id": "log_1783091888826_532",
+      "timestamp": "2026-07-03T15:18:08.826Z",
+      "type": "success",
+      "message": "✅ COOLDOWN OVER: 30-second post-tie stabilization finished. Bot is ready to trade."
+    },
+    {
+      "id": "log_1783091858813_619",
+      "timestamp": "2026-07-03T15:17:38.813Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091854311_931",
+      "timestamp": "2026-07-03T15:17:34.311Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091842308_856",
+      "timestamp": "2026-07-03T15:17:22.308Z",
+      "type": "success",
+      "message": "🏆 TAKE PROFIT TARGET REACHED! Session Profit of +$203.60 met or exceeded target of +$200.00. Auto-trading halted for your safety."
+    },
+    {
+      "id": "log_1783091842306_830",
+      "timestamp": "2026-07-03T15:17:22.306Z",
+      "type": "success",
+      "message": "🎯 TRADE WIN: Exit digit 7 matched prediction 7! Profit: +$80.9. New Balance: $10428.1. Martingale reset."
+    },
+    {
+      "id": "log_1783091840806_638",
+      "timestamp": "2026-07-03T15:17:20.806Z",
+      "type": "trade",
+      "message": "🤖 AUTO TRADE PLACED: Matches Digits on R_10. Stake: $10. Prediction Target: [7], Trigger Source: [5]. Reason: HFT 15-Tick Signal is Active. Current tick ended with Trigger Digit [5]. Executing Matches trade on Dominant Digit [7]."
+    },
+    {
+      "id": "log_1783091834803_571",
+      "timestamp": "2026-07-03T15:17:14.803Z",
+      "type": "success",
+      "message": "🎯 TRADE WIN: Exit digit 7 matched prediction 7! Profit: +$80.9. New Balance: $10347.2. Martingale reset."
+    },
+    {
+      "id": "log_1783091833305_336",
+      "timestamp": "2026-07-03T15:17:13.305Z",
+      "type": "trade",
+      "message": "🤖 AUTO TRADE PLACED: Matches Digits on R_10. Stake: $10. Prediction Target: [7], Trigger Source: [5]. Reason: HFT 15-Tick Signal is Active. Current tick ended with Trigger Digit [5]. Executing Matches trade on Dominant Digit [7]."
+    },
+    {
+      "id": "log_1783091833303_505",
+      "timestamp": "2026-07-03T15:17:13.303Z",
+      "type": "error",
+      "message": "❌ TRADE LOSS: Exit digit was 5 (Target Prediction: 7). Stake lost: -$10. New Balance: $10266.3. Consecutive losses: 4."
+    },
+    {
+      "id": "log_1783091831803_537",
+      "timestamp": "2026-07-03T15:17:11.803Z",
+      "type": "trade",
+      "message": "🤖 AUTO TRADE PLACED: Matches Digits on R_10. Stake: $10. Prediction Target: [7], Trigger Source: [6]. Reason: HFT 15-Tick Signal is Active. Current tick ended with Trigger Digit [6]. Executing Matches trade on Dominant Digit [7]."
+    },
+    {
+      "id": "log_1783091794286_403",
+      "timestamp": "2026-07-03T15:16:34.286Z",
+      "type": "success",
+      "message": "✅ COOLDOWN OVER: 30-second post-tie stabilization finished. Bot is ready to trade."
+    },
+    {
+      "id": "log_1783091791285_141",
+      "timestamp": "2026-07-03T15:16:31.285Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091768775_280",
+      "timestamp": "2026-07-03T15:16:08.775Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091764271_128",
+      "timestamp": "2026-07-03T15:16:04.271Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091755267_459",
+      "timestamp": "2026-07-03T15:15:55.267Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091732755_749",
+      "timestamp": "2026-07-03T15:15:32.755Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091729753_635",
+      "timestamp": "2026-07-03T15:15:29.753Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091728252_750",
+      "timestamp": "2026-07-03T15:15:28.252Z",
+      "type": "success",
+      "message": "✅ COOLDOWN OVER: 30-second post-tie stabilization finished. Bot is ready to trade."
+    },
+    {
+      "id": "log_1783091710239_287",
+      "timestamp": "2026-07-03T15:15:10.239Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091707236_295",
+      "timestamp": "2026-07-03T15:15:07.236Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091705735_27",
+      "timestamp": "2026-07-03T15:15:05.735Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091704235_946",
+      "timestamp": "2026-07-03T15:15:04.235Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091698232_501",
+      "timestamp": "2026-07-03T15:14:58.232Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091696731_178",
+      "timestamp": "2026-07-03T15:14:56.731Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091695231_368",
+      "timestamp": "2026-07-03T15:14:55.231Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091690729_65",
+      "timestamp": "2026-07-03T15:14:50.729Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091687727_856",
+      "timestamp": "2026-07-03T15:14:47.727Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091686227_388",
+      "timestamp": "2026-07-03T15:14:46.227Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091681725_489",
+      "timestamp": "2026-07-03T15:14:41.725Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091678723_128",
+      "timestamp": "2026-07-03T15:14:38.723Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091663716_959",
+      "timestamp": "2026-07-03T15:14:23.716Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091663715_506",
+      "timestamp": "2026-07-03T15:14:23.715Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091642701_414",
+      "timestamp": "2026-07-03T15:14:02.701Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091641201_283",
+      "timestamp": "2026-07-03T15:14:01.201Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091620190_84",
+      "timestamp": "2026-07-03T15:13:40.190Z",
+      "type": "success",
+      "message": "✅ COOLDOWN OVER: 30-second post-tie stabilization finished. Bot is ready to trade."
+    },
+    {
+      "id": "log_1783091596176_112",
+      "timestamp": "2026-07-03T15:13:16.176Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091594676_553",
+      "timestamp": "2026-07-03T15:13:14.676Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091593175_973",
+      "timestamp": "2026-07-03T15:13:13.175Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091590173_698",
+      "timestamp": "2026-07-03T15:13:10.173Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091587171_654",
+      "timestamp": "2026-07-03T15:13:07.171Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091584169_957",
+      "timestamp": "2026-07-03T15:13:04.169Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091578167_150",
+      "timestamp": "2026-07-03T15:12:58.167Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091576667_895",
+      "timestamp": "2026-07-03T15:12:56.667Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091576666_396",
+      "timestamp": "2026-07-03T15:12:56.666Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in TIE_PAUSED state."
+    },
+    {
+      "id": "log_1783091561658_664",
+      "timestamp": "2026-07-03T15:12:41.658Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091548152_902",
+      "timestamp": "2026-07-03T15:12:28.152Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091543649_540",
+      "timestamp": "2026-07-03T15:12:23.649Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091534642_445",
+      "timestamp": "2026-07-03T15:12:14.642Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091531641_73",
+      "timestamp": "2026-07-03T15:12:11.641Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in TIE_PAUSED state."
+    },
+    {
+      "id": "log_1783091530141_997",
+      "timestamp": "2026-07-03T15:12:10.141Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in TIE_PAUSED state."
+    },
+    {
+      "id": "log_1783091524139_509",
+      "timestamp": "2026-07-03T15:12:04.139Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091503130_932",
+      "timestamp": "2026-07-03T15:11:43.130Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091501629_813",
+      "timestamp": "2026-07-03T15:11:41.629Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091500128_606",
+      "timestamp": "2026-07-03T15:11:40.128Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091491122_184",
+      "timestamp": "2026-07-03T15:11:31.122Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091488122_192",
+      "timestamp": "2026-07-03T15:11:28.122Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091488121_616",
+      "timestamp": "2026-07-03T15:11:28.121Z",
+      "type": "error",
+      "message": "❌ TRADE LOSS: Exit digit was 2 (Target Prediction: 1). Stake lost: -$10. New Balance: $10276.3. Consecutive losses: 3."
+    },
+    {
+      "id": "log_1783091486620_938",
+      "timestamp": "2026-07-03T15:11:26.620Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091486620_254",
+      "timestamp": "2026-07-03T15:11:26.620Z",
+      "type": "trade",
+      "message": "🤖 AUTO TRADE PLACED: Matches Digits on R_10. Stake: $10. Prediction Target: [1], Trigger Source: [3]. Reason: HFT 15-Tick Signal is Active. Current tick ended with Trigger Digit [3]. Executing Matches trade on Dominant Digit [1]."
+    },
+    {
+      "id": "log_1783091485119_338",
+      "timestamp": "2026-07-03T15:11:25.119Z",
+      "type": "error",
+      "message": "❌ TRADE LOSS: Exit digit was 4 (Target Prediction: 1). Stake lost: -$10. New Balance: $10286.3. Consecutive losses: 2."
+    },
+    {
+      "id": "log_1783091483618_680",
+      "timestamp": "2026-07-03T15:11:23.618Z",
+      "type": "trade",
+      "message": "🤖 AUTO TRADE PLACED: Matches Digits on R_10. Stake: $10. Prediction Target: [1], Trigger Source: [3]. Reason: HFT 15-Tick Signal is Active. Current tick ended with Trigger Digit [3]. Executing Matches trade on Dominant Digit [1]."
+    },
+    {
+      "id": "log_1783091477615_747",
+      "timestamp": "2026-07-03T15:11:17.615Z",
+      "type": "success",
+      "message": "✅ COOLDOWN OVER: 30-second post-tie stabilization finished. Bot is ready to trade."
+    },
+    {
+      "id": "log_1783091447600_652",
+      "timestamp": "2026-07-03T15:10:47.600Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091444599_152",
+      "timestamp": "2026-07-03T15:10:44.599Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091443099_78",
+      "timestamp": "2026-07-03T15:10:43.099Z",
+      "type": "error",
+      "message": "❌ TRADE LOSS: Exit digit was 1 (Target Prediction: 4). Stake lost: -$10. New Balance: $10296.3. Consecutive losses: 1."
+    },
+    {
+      "id": "log_1783091441599_119",
+      "timestamp": "2026-07-03T15:10:41.599Z",
+      "type": "trade",
+      "message": "🤖 AUTO TRADE PLACED: Matches Digits on R_10. Stake: $10. Prediction Target: [4], Trigger Source: [2]. Reason: HFT 15-Tick Signal is Active. Current tick ended with Trigger Digit [2]. Executing Matches trade on Dominant Digit [4]."
+    },
+    {
+      "id": "log_1783091435594_640",
+      "timestamp": "2026-07-03T15:10:35.594Z",
+      "type": "success",
+      "message": "🎯 TRADE WIN: Exit digit 4 matched prediction 4! Profit: +$80.9. New Balance: $10306.3. Martingale reset."
+    },
+    {
+      "id": "log_1783091434093_637",
+      "timestamp": "2026-07-03T15:10:34.093Z",
+      "type": "trade",
+      "message": "🤖 AUTO TRADE PLACED: Matches Digits on R_10. Stake: $10. Prediction Target: [4], Trigger Source: [5]. Reason: HFT 15-Tick Signal is Active. Current tick ended with Trigger Digit [5]. Executing Matches trade on Dominant Digit [4]."
+    },
+    {
+      "id": "log_1783091417585_931",
+      "timestamp": "2026-07-03T15:10:17.585Z",
+      "type": "success",
+      "message": "✅ COOLDOWN OVER: 30-second post-tie stabilization finished. Bot is ready to trade."
+    },
+    {
+      "id": "log_1783091413083_219",
+      "timestamp": "2026-07-03T15:10:13.083Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091402579_696",
+      "timestamp": "2026-07-03T15:10:02.579Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091395077_178",
+      "timestamp": "2026-07-03T15:09:55.077Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091393576_703",
+      "timestamp": "2026-07-03T15:09:53.576Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091387571_684",
+      "timestamp": "2026-07-03T15:09:47.571Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091386070_632",
+      "timestamp": "2026-07-03T15:09:46.070Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091371062_514",
+      "timestamp": "2026-07-03T15:09:31.062Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091371062_346",
+      "timestamp": "2026-07-03T15:09:31.062Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in TIE_PAUSED state."
+    },
+    {
+      "id": "log_1783091369562_950",
+      "timestamp": "2026-07-03T15:09:29.562Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091369561_202",
+      "timestamp": "2026-07-03T15:09:29.561Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091368061_241",
+      "timestamp": "2026-07-03T15:09:28.061Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091366561_46",
+      "timestamp": "2026-07-03T15:09:26.561Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091366560_227",
+      "timestamp": "2026-07-03T15:09:26.560Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091359057_777",
+      "timestamp": "2026-07-03T15:09:19.057Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091357556_524",
+      "timestamp": "2026-07-03T15:09:17.556Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091347051_617",
+      "timestamp": "2026-07-03T15:09:07.051Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091345550_487",
+      "timestamp": "2026-07-03T15:09:05.550Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091330542_667",
+      "timestamp": "2026-07-03T15:08:50.542Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091327540_871",
+      "timestamp": "2026-07-03T15:08:47.540Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091315536_287",
+      "timestamp": "2026-07-03T15:08:35.536Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091314036_449",
+      "timestamp": "2026-07-03T15:08:34.036Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091309535_675",
+      "timestamp": "2026-07-03T15:08:29.535Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091302031_359",
+      "timestamp": "2026-07-03T15:08:22.031Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091276519_869",
+      "timestamp": "2026-07-03T15:07:56.519Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091275019_162",
+      "timestamp": "2026-07-03T15:07:55.019Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091272017_553",
+      "timestamp": "2026-07-03T15:07:52.017Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091269016_388",
+      "timestamp": "2026-07-03T15:07:49.016Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091261513_671",
+      "timestamp": "2026-07-03T15:07:41.513Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091260012_394",
+      "timestamp": "2026-07-03T15:07:40.012Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091258513_23",
+      "timestamp": "2026-07-03T15:07:38.513Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091258512_530",
+      "timestamp": "2026-07-03T15:07:38.512Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in TIE_PAUSED state."
+    },
+    {
+      "id": "log_1783091257011_856",
+      "timestamp": "2026-07-03T15:07:37.011Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091257011_837",
+      "timestamp": "2026-07-03T15:07:37.011Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in COOLDOWN state."
+    },
+    {
+      "id": "log_1783091255510_400",
+      "timestamp": "2026-07-03T15:07:35.510Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091255510_602",
+      "timestamp": "2026-07-03T15:07:35.510Z",
+      "type": "info",
+      "message": "⏳ Trade trigger bypassed: Engine is in TIE_PAUSED state."
+    },
+    {
+      "id": "log_1783091254009_898",
+      "timestamp": "2026-07-03T15:07:34.009Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091246503_376",
+      "timestamp": "2026-07-03T15:07:26.503Z",
+      "type": "error",
+      "message": "❌ TRADE LOSS: Exit digit was 6 (Target Prediction: 3). Stake lost: -$10. New Balance: $10225.4. Consecutive losses: 8."
+    },
+    {
+      "id": "log_1783091245010_576",
+      "timestamp": "2026-07-03T15:07:25.010Z",
+      "type": "trade",
+      "message": "🤖 AUTO TRADE PLACED: Matches Digits on R_10. Stake: $10. Prediction Target: [3], Trigger Source: [8]. Reason: HFT 15-Tick Signal is Active. Current tick ended with Trigger Digit [8]. Executing Matches trade on Dominant Digit [3]."
+    },
+    {
+      "id": "log_1783091232995_494",
+      "timestamp": "2026-07-03T15:07:12.995Z",
+      "type": "error",
+      "message": "❌ TRADE LOSS: Exit digit was 2 (Target Prediction: 5). Stake lost: -$10. New Balance: $10235.4. Consecutive losses: 7."
+    },
+    {
+      "id": "log_1783091231495_883",
+      "timestamp": "2026-07-03T15:07:11.495Z",
+      "type": "trade",
+      "message": "🤖 AUTO TRADE PLACED: Matches Digits on R_10. Stake: $10. Prediction Target: [5], Trigger Source: [3]. Reason: HFT 15-Tick Signal is Active. Current tick ended with Trigger Digit [3]. Executing Matches trade on Dominant Digit [5]."
+    },
+    {
+      "id": "log_1783091231494_774",
+      "timestamp": "2026-07-03T15:07:11.494Z",
+      "type": "error",
+      "message": "❌ TRADE LOSS: Exit digit was 3 (Target Prediction: 5). Stake lost: -$10. New Balance: $10245.4. Consecutive losses: 6."
+    },
+    {
+      "id": "log_1783091229993_865",
+      "timestamp": "2026-07-03T15:07:09.993Z",
+      "type": "trade",
+      "message": "🤖 AUTO TRADE PLACED: Matches Digits on R_10. Stake: $10. Prediction Target: [5], Trigger Source: [3]. Reason: HFT 15-Tick Signal is Active. Current tick ended with Trigger Digit [3]. Executing Matches trade on Dominant Digit [5]."
+    },
+    {
+      "id": "log_1783091210484_423",
+      "timestamp": "2026-07-03T15:06:50.484Z",
+      "type": "error",
+      "message": "❌ TRADE LOSS: Exit digit was 0 (Target Prediction: 9). Stake lost: -$10. New Balance: $10255.4. Consecutive losses: 5."
+    },
+    {
+      "id": "log_1783091208983_816",
+      "timestamp": "2026-07-03T15:06:48.983Z",
+      "type": "trade",
+      "message": "🤖 AUTO TRADE PLACED: Matches Digits on R_10. Stake: $10. Prediction Target: [9], Trigger Source: [8]. Reason: HFT 15-Tick Signal is Active. Current tick ended with Trigger Digit [8]. Executing Matches trade on Dominant Digit [9]."
+    },
+    {
+      "id": "log_1783091181971_749",
+      "timestamp": "2026-07-03T15:06:21.971Z",
+      "type": "error",
+      "message": "❌ TRADE LOSS: Exit digit was 3 (Target Prediction: 5). Stake lost: -$10. New Balance: $10265.4. Consecutive losses: 4."
+    },
+    {
+      "id": "log_1783091180471_661",
+      "timestamp": "2026-07-03T15:06:20.471Z",
+      "type": "trade",
+      "message": "🤖 AUTO TRADE PLACED: Matches Digits on R_10. Stake: $10. Prediction Target: [5], Trigger Source: [1]. Reason: HFT 15-Tick Signal is Active. Current tick ended with Trigger Digit [1]. Executing Matches trade on Dominant Digit [5]."
+    },
+    {
+      "id": "log_1783091175969_223",
+      "timestamp": "2026-07-03T15:06:15.969Z",
+      "type": "error",
+      "message": "❌ TRADE LOSS: Exit digit was 1 (Target Prediction: 5). Stake lost: -$10. New Balance: $10275.4. Consecutive losses: 3."
+    },
+    {
+      "id": "log_1783091174469_888",
+      "timestamp": "2026-07-03T15:06:14.469Z",
+      "type": "trade",
+      "message": "🤖 AUTO TRADE PLACED: Matches Digits on R_10. Stake: $10. Prediction Target: [5], Trigger Source: [2]. Reason: HFT 15-Tick Signal is Active. Current tick ended with Trigger Digit [2]. Executing Matches trade on Dominant Digit [5]."
+    },
+    {
+      "id": "log_1783091156459_862",
+      "timestamp": "2026-07-03T15:05:56.459Z",
+      "type": "error",
+      "message": "❌ TRADE LOSS: Exit digit was 3 (Target Prediction: 0). Stake lost: -$10. New Balance: $10285.4. Consecutive losses: 2."
+    },
+    {
+      "id": "log_1783091154958_43",
+      "timestamp": "2026-07-03T15:05:54.958Z",
+      "type": "trade",
+      "message": "🤖 AUTO TRADE PLACED: Matches Digits on R_10. Stake: $10. Prediction Target: [0], Trigger Source: [2]. Reason: HFT 15-Tick Signal is Active. Current tick ended with Trigger Digit [2]. Executing Matches trade on Dominant Digit [0]."
+    },
+    {
+      "id": "log_1783091102429_236",
+      "timestamp": "2026-07-03T15:05:02.429Z",
+      "type": "error",
+      "message": "❌ TRADE LOSS: Exit digit was 1 (Target Prediction: 0). Stake lost: -$10. New Balance: $10295.4. Consecutive losses: 1."
+    },
+    {
+      "id": "log_1783091100928_513",
+      "timestamp": "2026-07-03T15:05:00.928Z",
+      "type": "trade",
+      "message": "🤖 AUTO TRADE PLACED: Matches Digits on R_10. Stake: $10. Prediction Target: [0], Trigger Source: [9]. Reason: HFT 15-Tick Signal is Active. Current tick ended with Trigger Digit [9]. Executing Matches trade on Dominant Digit [0]."
+    },
+    {
+      "id": "log_1783091099428_147",
+      "timestamp": "2026-07-03T15:04:59.428Z",
+      "type": "success",
+      "message": "🎯 TRADE WIN: Exit digit 0 matched prediction 0! Profit: +$80.9. New Balance: $10305.4. Martingale reset."
+    },
+    {
+      "id": "log_1783091097927_465",
+      "timestamp": "2026-07-03T15:04:57.927Z",
+      "type": "trade",
+      "message": "🤖 AUTO TRADE PLACED: Matches Digits on R_10. Stake: $10. Prediction Target: [0], Trigger Source: [9]. Reason: HFT 15-Tick Signal is Active. Current tick ended with Trigger Digit [9]. Executing Matches trade on Dominant Digit [0]."
+    },
+    {
+      "id": "log_1783091095710_349",
+      "timestamp": "2026-07-03T15:04:55.710Z",
+      "type": "info",
+      "message": "Automated Trading engine turned 🔴 ON (Session Start Balance: $10224.50)"
+    },
+    {
+      "id": "log_1783091087422_961",
+      "timestamp": "2026-07-03T15:04:47.422Z",
+      "type": "success",
+      "message": "✅ COOLDOWN OVER: 30-second post-tie stabilization finished. Bot is ready to trade."
+    },
+    {
+      "id": "log_1783091078906_995",
+      "timestamp": "2026-07-03T15:04:38.906Z",
+      "type": "info",
+      "message": "Configuration updated. Symbol: R_10, Stake: $10, Martingale: OFF. Risk Controls: TakeProfit: $200, StopLoss: $150, MaxStake: OFF, LossStreakStop: OFF"
+    },
+    {
+      "id": "log_1783091078416_226",
+      "timestamp": "2026-07-03T15:04:38.416Z",
+      "type": "info",
+      "message": "Simulated tick stream started for R_10"
+    },
+    {
+      "id": "log_1783091078415_994",
+      "timestamp": "2026-07-03T15:04:38.415Z",
+      "type": "info",
+      "message": "Engine initialized with 120 bootstrapped ticks."
+    },
+    {
+      "id": "log_1783091078415_714",
+      "timestamp": "2026-07-03T15:04:38.415Z",
+      "type": "trigger",
+      "message": "🎯 LOADED BEST PAIR: Automated lock secured on R_10 → Trigger [9] and Predict [0]."
+    },
+    {
+      "id": "log_1783091078415_441",
+      "timestamp": "2026-07-03T15:04:38.415Z",
+      "type": "success",
+      "message": "🔍 GLOBAL POOL SCAN COMPLETED! Evaluated 10 synthetic pairs (900 digit combinations). Isolated absolute best performance profile on Volatility 10 Index (R_10) with 97% confidence index."
+    },
+    {
+      "id": "log_1783091056105_531",
+      "timestamp": "2026-07-03T15:04:16.105Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091053103_366",
+      "timestamp": "2026-07-03T15:04:13.103Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091051603_816",
+      "timestamp": "2026-07-03T15:04:11.603Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091045600_617",
+      "timestamp": "2026-07-03T15:04:05.600Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091042598_678",
+      "timestamp": "2026-07-03T15:04:02.598Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091041097_632",
+      "timestamp": "2026-07-03T15:04:01.098Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091038096_131",
+      "timestamp": "2026-07-03T15:03:58.096Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091033591_51",
+      "timestamp": "2026-07-03T15:03:53.591Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091017084_215",
+      "timestamp": "2026-07-03T15:03:37.084Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091015584_29",
+      "timestamp": "2026-07-03T15:03:35.584Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783091014083_64",
+      "timestamp": "2026-07-03T15:03:34.083Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783091005082_533",
+      "timestamp": "2026-07-03T15:03:25.082Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783090965959_311",
+      "timestamp": "2026-07-03T15:02:45.959Z",
+      "type": "info",
+      "message": "Simulated tick stream started for R_25"
+    },
+    {
+      "id": "log_1783090965955_970",
+      "timestamp": "2026-07-03T15:02:45.955Z",
+      "type": "info",
+      "message": "Engine initialized with 120 bootstrapped ticks."
+    },
+    {
+      "id": "log_1783090877982_430",
+      "timestamp": "2026-07-03T15:01:17.982Z",
+      "type": "info",
+      "message": "Simulated tick stream started for R_25"
+    },
+    {
+      "id": "log_1783090877980_889",
+      "timestamp": "2026-07-03T15:01:17.980Z",
+      "type": "info",
+      "message": "Engine initialized with 120 bootstrapped ticks."
+    },
+    {
+      "id": "log_1783090796132_812",
+      "timestamp": "2026-07-03T14:59:56.132Z",
+      "type": "success",
+      "message": "✅ COOLDOWN OVER: 30-second post-tie stabilization finished. Bot is ready to trade."
+    },
+    {
+      "id": "log_1783090766118_987",
+      "timestamp": "2026-07-03T14:59:26.118Z",
+      "type": "trigger",
+      "message": "🔄 TIE BROKEN: Digit tie has broken! Entering mandatory 30-second stabilization cooldown before trading can resume."
+    },
+    {
+      "id": "log_1783090761615_394",
+      "timestamp": "2026-07-03T14:59:21.615Z",
+      "type": "error",
+      "message": "⚠️ TIE DETECTED: Multiple digits have tied for highest or second-highest frequency. Trading paused until the tie is broken."
+    },
+    {
+      "id": "log_1783090658065_285",
+      "timestamp": "2026-07-03T14:57:38.065Z",
+      "type": "success",
+      "message": "✅ COOLDOWN OVER: 30-second post-tie stabilization finished. Bot is ready to trade."
+    },
+    {
+      "id": "log_1783090628625_46",
+      "timestamp": "2026-07-03T14:57:08.625Z",
+      "type": "info",
+      "message": "Engine initialized with 120 bootstrapped ticks."
+    },
+    {
+      "id": "log_1783090628624_199",
+      "timestamp": "2026-07-03T14:57:08.624Z",
+      "type": "success",
+      "message": "Trade History cleared. Demo Balance is preserved at $10224.50."
+    }
+  ],
+  "config": {
+    "windowSize": 120,
+    "stake": 10,
+    "symbol": "R_10",
+    "derivToken": "",
+    "derivAppId": "1089",
+    "martingaleEnabled": false,
+    "martingaleMultiplier": 1.5,
+    "martingaleMaxSteps": 5,
+    "analysisMode": "HFT_15",
+    "lockedPredictionDigit": 0,
+    "lockedTriggerDigit": 9,
+    "useLockedPair": true,
+    "cooldownAfterTieEnabled": true,
+    "takeProfitEnabled": true,
+    "takeProfitAmount": 200,
+    "stopLossEnabled": true,
+    "stopLossAmount": 150,
+    "maxStakeEnabled": false,
+    "maxStakeAmount": 500,
+    "martingaleActionOnMax": "RESET",
+    "consecutiveLossLimitEnabled": false,
+    "consecutiveLossLimitAmount": 10
+  },
+  "currentMartingaleStep": 0,
+  "sessionStartBalance": 10224.5
+}

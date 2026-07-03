@@ -1,0 +1,8 @@
+{
+  "name": "Matches Digits Fintech Platform",
+  "description": "Professional fintech real-time tick digit analysis and automated trading platform for synthetic indices, featuring rolling window frequency calculations, signals, and live execution logs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
