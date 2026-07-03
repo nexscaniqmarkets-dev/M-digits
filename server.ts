@@ -710,6 +710,13 @@ function checkRiskLimits() {
       return;
     }
   }
+
+  // 4. Insufficient Balance Check
+  if (balance <= 0 || balance < config.stake) {
+    status.autoTrading = false;
+    addLog("error", `🛑 INSUFFICIENT BALANCE: Available balance ($${balance.toFixed(2)}) is less than required base stake ($${config.stake.toFixed(2)}). Automated trading halted to prevent negative balance.`);
+    return;
+  }
 }
 
 function runOrchestrator(newTick: Tick) {
@@ -744,9 +751,14 @@ function runOrchestrator(newTick: Tick) {
       pendingTrade.payout = 0.0;
       pendingTrade.result = "LOSS";
 
-      balance = parseFloat((balance + loss).toFixed(2));
+      balance = parseFloat(Math.max(0, balance + loss).toFixed(2));
       pendingTrade.balanceAfter = balance;
       status.balance = balance;
+
+      if (status.autoTrading && balance < config.stake) {
+        status.autoTrading = false;
+        addLog("error", `🛑 INSUFFICIENT BALANCE AFTER LOSS: Remaining balance ($${balance.toFixed(2)}) is lower than base stake ($${config.stake.toFixed(2)}). Automated trading stopped to prevent negative balance.`);
+      }
 
       consecutiveLosses++;
       if (config.martingaleEnabled) {
@@ -835,6 +847,13 @@ function runOrchestrator(newTick: Tick) {
           activeStake = parseFloat((config.stake * Math.pow(config.martingaleMultiplier, currentMartingaleStep)).toFixed(2));
         }
 
+        // Check if martingale step causes stake to exceed balance
+        if (activeStake > status.balance && config.martingaleEnabled && currentMartingaleStep > 0 && config.stake <= status.balance) {
+          addLog("info", `⚠️ MARTINGALE STAKE EXCEEDS BALANCE: Stake $${activeStake} exceeds available balance ($${status.balance.toFixed(2)}). Reverting to base stake ($${config.stake.toFixed(2)}).`);
+          currentMartingaleStep = 0;
+          activeStake = config.stake;
+        }
+
         // Max stake check
         if (config.maxStakeEnabled && activeStake > config.maxStakeAmount) {
           if (config.martingaleActionOnMax === "HALT") {
@@ -848,6 +867,15 @@ function runOrchestrator(newTick: Tick) {
             currentMartingaleStep = 0;
             activeStake = config.stake;
           }
+        }
+
+        // Absolute balance safeguard: never execute trade if stake exceeds balance or if balance is zero/negative
+        if (activeStake > status.balance || status.balance <= 0) {
+          status.autoTrading = false;
+          addLog("error", `🛑 INSUFFICIENT BALANCE: Required trade stake ($${activeStake.toFixed(2)}) exceeds available balance ($${status.balance.toFixed(2)}). Automated trading halted to prevent negative balance.`);
+          broadcastSummary();
+          saveState();
+          return;
         }
 
         const tradeId = `trade_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
@@ -871,7 +899,7 @@ function runOrchestrator(newTick: Tick) {
 
         // If live mode, fire the real order
         if (status.derivMode === "LIVE" && config.derivToken) {
-          executeRealDerivTrade(targetPrediction);
+          executeRealDerivTrade(targetPrediction, activeStake);
         }
       }
     }
@@ -1111,13 +1139,8 @@ function connectToDeriv() {
 }
 
 // Function to place a real buy order on Deriv
-function executeRealDerivTrade(predictionDigit: number) {
+function executeRealDerivTrade(predictionDigit: number, activeStake: number) {
   if (!derivWs || derivWs.readyState !== WebSocket.OPEN) return;
-  
-  let activeStake = config.stake;
-  if (config.martingaleEnabled && currentMartingaleStep > 0) {
-    activeStake = parseFloat((config.stake * Math.pow(config.martingaleMultiplier, currentMartingaleStep)).toFixed(2));
-  }
   
   const req = {
     buy: 1,
@@ -1427,7 +1450,15 @@ app.post("/api/action", (req, res) => {
   const { action, value } = req.body;
   
   if (action === "TOGGLE_AUTO_TRADE") {
-    status.autoTrading = value !== undefined ? !!value : !status.autoTrading;
+    const wantToTurnOn = value !== undefined ? !!value : !status.autoTrading;
+    if (wantToTurnOn && (balance <= 0 || balance < config.stake)) {
+      status.autoTrading = false;
+      addLog("error", `🛑 CANNOT START AUTO TRADING: Available balance ($${balance.toFixed(2)}) is insufficient for base stake ($${config.stake.toFixed(2)}).`);
+      broadcastSummary();
+      saveState();
+      return res.status(400).json({ success: false, error: "INSUFFICIENT_BALANCE", autoTrading: false, message: `Available balance ($${balance.toFixed(2)}) is insufficient for base stake ($${config.stake.toFixed(2)}).` });
+    }
+    status.autoTrading = wantToTurnOn;
     if (status.autoTrading) {
       sessionStartBalance = balance;
       consecutiveLosses = 0;
@@ -1695,15 +1726,23 @@ wss.on("connection", (ws) => {
       const data = JSON.parse(msg.toString());
       
       if (data.type === "TOGGLE_AUTO_TRADE") {
-        status.autoTrading = !status.autoTrading;
-        if (status.autoTrading) {
-          sessionStartBalance = balance;
-          consecutiveLosses = 0;
-          currentMartingaleStep = 0;
+        const wantToTurnOn = !status.autoTrading;
+        if (wantToTurnOn && (balance <= 0 || balance < config.stake)) {
+          status.autoTrading = false;
+          addLog("error", `🛑 CANNOT START AUTO TRADING: Available balance ($${balance.toFixed(2)}) is insufficient for base stake ($${config.stake.toFixed(2)}).`);
+          broadcastSummary();
+          saveState();
+        } else {
+          status.autoTrading = wantToTurnOn;
+          if (status.autoTrading) {
+            sessionStartBalance = balance;
+            consecutiveLosses = 0;
+            currentMartingaleStep = 0;
+          }
+          addLog("info", `Automated Trading engine turned ${status.autoTrading ? "🔴 ON" : "⚪ OFF"}${status.autoTrading ? " (Session Start Balance: $" + balance.toFixed(2) + ")" : ""}`);
+          broadcastSummary();
+          saveState();
         }
-        addLog("info", `Automated Trading engine turned ${status.autoTrading ? "🔴 ON" : "⚪ OFF"}${status.autoTrading ? " (Session Start Balance: $" + balance.toFixed(2) + ")" : ""}`);
-        broadcastSummary();
-        saveState();
       }
       
       else if (data.type === "EMERGENCY_STOP") {

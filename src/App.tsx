@@ -246,6 +246,11 @@ export default function App() {
 
   // REST mutations
   const handleToggleAutoTrade = async (explicitValue?: boolean) => {
+    const wantToTurnOn = explicitValue !== undefined ? explicitValue : !status.autoTrading;
+    if (wantToTurnOn && (status.balance <= 0 || status.balance < config.stake)) {
+      alert(`⚠️ Insufficient balance ($${status.balance.toFixed(2)}) to start automated trading with required stake ($${config.stake.toFixed(2)}).`);
+      return;
+    }
     try {
       const uId = userIdRef.current;
       const res = await fetch(`/api/action?userId=${encodeURIComponent(uId)}`, {
@@ -257,9 +262,11 @@ export default function App() {
           ...(explicitValue !== undefined ? { value: explicitValue } : {})
         })
       });
+      const data = await res.json();
       if (res.ok) {
-        const data = await res.json();
         setStatus(prev => ({ ...prev, autoTrading: data.autoTrading }));
+      } else if (data && data.message) {
+        alert(data.message);
       }
     } catch (err) {
       console.error("Failed to toggle auto trade:", err);
