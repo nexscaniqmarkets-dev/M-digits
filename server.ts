@@ -1841,7 +1841,30 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+// Self-ping keep-alive: prevents free-tier hosts (e.g. Render) from spinning down
+// the service due to inactivity. Only runs in production, and only if APP_URL is set.
+function startKeepAlivePing() {
+  const appUrl = process.env.APP_URL;
+  if (process.env.NODE_ENV !== "production" || !appUrl) return;
+
+  const PING_INTERVAL_MS = 10 * 60 * 1000; // 10 minutes
+
+  setInterval(() => {
+    const target = appUrl.startsWith("http") ? appUrl : `https://${appUrl}`;
+    fetch(target)
+      .then((res) => {
+        console.log(`[keep-alive] Self-ping ${target} -> ${res.status}`);
+      })
+      .catch((err) => {
+        console.error(`[keep-alive] Self-ping failed: ${err.message}`);
+      });
+  }, PING_INTERVAL_MS);
+
+  console.log(`[keep-alive] Self-ping enabled for ${appUrl} every ${PING_INTERVAL_MS / 60000} minutes.`);
+}
+
 // Start server listening
 server.listen(PORT, "0.0.0.0", () => {
   console.log(`Finance server running on http://localhost:${PORT}`);
+  startKeepAlivePing();
 });
