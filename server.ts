@@ -248,6 +248,7 @@ class TradingSession {
   simulatedInterval: NodeJS.Timeout | null = null;
   derivWs: WebSocket | null = null;
   derivPingInterval: NodeJS.Timeout | null = null;
+  derivReconnectTimeout: NodeJS.Timeout | null = null;
   symbolPrices: Record<string, number> = { ...DEFAULT_SYMBOL_PRICES };
   derivAccountCurrency: string = "USD";
 
@@ -858,6 +859,10 @@ class TradingSession {
   }
 
   async connectToDeriv() {
+    if (this.derivReconnectTimeout) {
+      clearTimeout(this.derivReconnectTimeout);
+      this.derivReconnectTimeout = null;
+    }
     if (this.derivWs) {
       try { this.derivWs.close(); } catch (e) {}
       this.derivWs = null;
@@ -1064,9 +1069,11 @@ class TradingSession {
         this.broadcastSummary();
 
         if (this.status.derivMode === "LIVE") {
-          setTimeout(() => {
+          if (this.derivReconnectTimeout) clearTimeout(this.derivReconnectTimeout);
+          this.derivReconnectTimeout = setTimeout(() => {
+            this.derivReconnectTimeout = null;
             if (this.status.derivMode === "LIVE") this.connectToDeriv();
-          }, 15000);
+          }, 1500);
         }
       });
 
