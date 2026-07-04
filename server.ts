@@ -1036,16 +1036,17 @@ class TradingSession {
         }
       });
 
-      this.derivWs.on("close", () => {
+      this.derivWs.on("close", (code, reasonBuf) => {
+        const reason = reasonBuf?.toString() || "(no reason given)";
         this.status.connectionStatus = "DISCONNECTED";
         this.status.streamStatus = "IDLE";
-        this.addLog("error", `Deriv API Connection Closed.`);
+        this.addLog("error", `Deriv API Connection Closed. Code: ${code}, Reason: ${reason}`);
         this.broadcastSummary();
 
         if (this.status.derivMode === "LIVE") {
           setTimeout(() => {
             if (this.status.derivMode === "LIVE") this.connectToDeriv();
-          }, 5000);
+          }, 15000);
         }
       });
 
