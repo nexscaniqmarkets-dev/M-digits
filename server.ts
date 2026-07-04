@@ -248,6 +248,7 @@ class TradingSession {
   derivWs: WebSocket | null = null;
   derivPingInterval: NodeJS.Timeout | null = null;
   symbolPrices: Record<string, number> = { ...DEFAULT_SYMBOL_PRICES };
+  derivAccountCurrency: string = "USD";
 
   wsClients: Set<WebSocket> = new Set();
   lastActivity = Date.now();
@@ -855,7 +856,7 @@ class TradingSession {
     }
   }
 
-  connectToDeriv() {
+  async connectToDeriv() {
     if (this.derivWs) {
       try { this.derivWs.close(); } catch (e) {}
       this.derivWs = null;
@@ -872,17 +873,99 @@ class TradingSession {
     this.stopSimulator();
     this.status.connectionStatus = "CONNECTING";
     this.status.streamStatus = "IDLE";
-    this.addLog("info", `Connecting to Deriv WebSocket API (App ID: ${this.config.derivAppId || "1089 (Default)"})...`);
     this.broadcastSummary();
 
-    const derivUrl = `wss://ws.derivws.com/websockets/v3?app_id=${this.config.derivAppId || "1089"}`;
+    const appId = this.config.derivAppId || "1089";
+
+    // No token: read-only mode isn't supported by the new Options API
+    // (every REST call requires a Bearer token), so fall back to Simulated.
+    if (!this.config.derivToken) {
+      this.addLog("info", `No token provided. Live read-only mode isn't available on Deriv's current API — returning to Simulated Sandbox Mode.`);
+      this.status.derivMode = "SIMULATED";
+      this.startSimulator();
+      this.broadcastSummary();
+      return;
+    }
+
+    this.addLog("info", `Connecting to Deriv Options API (App ID: ${appId})...`);
 
     try {
-      this.derivWs = new WebSocket(derivUrl);
+      // Step 1: List accounts to find the account ID this token belongs to.
+      const accountsRes = await fetch("https://api.derivws.com/trading/v1/options/accounts", {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${this.config.derivToken}`,
+          "Deriv-App-ID": appId
+        }
+      });
+
+      if (!accountsRes.ok) {
+        const errBody = await accountsRes.json().catch(() => ({}));
+        const errMsg = errBody?.errors?.[0]?.message || errBody?.message || `HTTP ${accountsRes.status}`;
+        this.addLog("error", `Deriv API Error: ${errMsg}`);
+        this.addLog("info", `💡 Hint: Confirm your token is a valid Personal Access Token with Read and Trade scopes, and that your App ID (${appId}) is registered correctly on developers.deriv.com.`);
+        this.status.derivMode = "SIMULATED";
+        this.addLog("info", `🔄 Automatically returned to Simulated Sandbox Mode.`);
+        this.startSimulator();
+        this.status.streamStatus = "ERROR";
+        this.broadcastSummary();
+        return;
+      }
+
+      const accountsData = await accountsRes.json();
+      const accounts = accountsData?.data ?? [];
+      if (!accounts.length) {
+        this.addLog("error", `Deriv API Error: No accounts found for this token.`);
+        this.status.derivMode = "SIMULATED";
+        this.startSimulator();
+        this.status.streamStatus = "ERROR";
+        this.broadcastSummary();
+        return;
+      }
+
+      // Prefer a real (non-virtual) account since this is LIVE mode; fall back to first.
+      const account = accounts.find((a: any) => !a.is_virtual && a.account_type !== "demo") ?? accounts[0];
+      const accountId = account.account_id || account.loginid;
+      this.derivAccountCurrency = account.currency || "USD";
+
+      // Step 2: Request an OTP-authenticated WebSocket URL for that account.
+      const otpRes = await fetch(`https://api.derivws.com/trading/v1/options/accounts/${accountId}/otp`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${this.config.derivToken}`,
+          "Deriv-App-ID": appId
+        }
+      });
+
+      if (!otpRes.ok) {
+        const errBody = await otpRes.json().catch(() => ({}));
+        const errMsg = errBody?.errors?.[0]?.message || errBody?.message || `HTTP ${otpRes.status}`;
+        this.addLog("error", `Deriv API Error requesting OTP: ${errMsg}`);
+        this.status.derivMode = "SIMULATED";
+        this.startSimulator();
+        this.status.streamStatus = "ERROR";
+        this.broadcastSummary();
+        return;
+      }
+
+      const otpData = await otpRes.json();
+      const wsUrl = otpData?.data?.url;
+      if (!wsUrl) {
+        this.addLog("error", `Deriv API Error: OTP response did not include a WebSocket URL.`);
+        this.status.derivMode = "SIMULATED";
+        this.startSimulator();
+        this.status.streamStatus = "ERROR";
+        this.broadcastSummary();
+        return;
+      }
+
+      // Step 3: Connect — this URL is pre-authenticated, no separate authorize message needed.
+      this.derivWs = new WebSocket(wsUrl);
 
       this.derivWs.on("open", () => {
         this.status.connectionStatus = "CONNECTED";
-        this.addLog("success", `Connected to Deriv WebSocket Server!`);
+        this.status.derivMode = "LIVE";
+        this.addLog("success", `Connected & authorized via Deriv Options API! Account: ${accountId}.`);
 
         this.derivPingInterval = setInterval(() => {
           if (this.derivWs && this.derivWs.readyState === WebSocket.OPEN) {
@@ -890,14 +973,9 @@ class TradingSession {
           }
         }, 30000);
 
-        if (this.config.derivToken) {
-          this.addLog("info", `Authorizing account via provided token...`);
-          this.derivWs.send(JSON.stringify({ authorize: this.config.derivToken }));
-        } else {
-          this.addLog("info", `No token provided. Running in Read-Only Live subscription mode.`);
-          this.derivWs.send(JSON.stringify({ ticks: this.config.symbol }));
-          this.status.streamStatus = "LIVE";
-        }
+        this.derivWs!.send(JSON.stringify({ balance: 1, subscribe: 1 }));
+        this.derivWs!.send(JSON.stringify({ ticks: this.config.symbol, subscribe: 1 }));
+        this.status.streamStatus = "LIVE";
         this.broadcastSummary();
       });
 
@@ -908,30 +986,22 @@ class TradingSession {
           if (response.error) {
             const errMsg = response.error.message;
             this.addLog("error", `Deriv API Error: ${errMsg}`);
-
-            if (errMsg.toLowerCase().includes("token") && errMsg.toLowerCase().includes("invalid")) {
-              this.addLog("info", `💡 Hint: Since Deriv links Personal API Tokens to specific platforms, try switching the App ID in the settings (e.g. 16929 for Deriv Web, 1911 for DBot, or 1089). Also, make sure both 'Read' and 'Trade' scopes were checked when you created the token.`);
-              this.status.derivMode = "SIMULATED";
-              this.addLog("info", `🔄 Automatically returned to Simulated Sandbox Mode to prevent rate-limiting and connection retry loops.`);
-              this.startSimulator();
-            }
-
             this.status.streamStatus = "ERROR";
+            if (response.msg_type === "proposal" || response.msg_type === "buy") {
+              this.pendingTrade = null;
+            }
             this.broadcastSummary();
             return;
           }
 
           const msgType = response.msg_type;
 
-          if (msgType === "authorize") {
-            const authData = response.authorize;
-            this.balance = parseFloat(authData.balance);
-            this.status.balance = this.balance;
-            this.status.derivMode = "LIVE";
-            this.addLog("success", `Authorized successfully! Account: ${authData.email}. Live Balance: $${this.balance} ${authData.currency}`);
-            this.derivWs?.send(JSON.stringify({ ticks: this.config.symbol }));
-            this.status.streamStatus = "LIVE";
-            this.broadcastSummary();
+          if (msgType === "balance" && response.balance) {
+            const parsedBal = Number(response.balance.balance);
+            if (!isNaN(parsedBal)) {
+              this.balance = parsedBal;
+              this.status.balance = this.balance;
+            }
           } else if (msgType === "tick") {
             if (this.status.engineStatus === "PAUSED") return;
             const tickData = response.tick;
@@ -946,8 +1016,20 @@ class TradingSession {
 
             const newTick: Tick = { id: `deriv_${tickData.id}`, epoch, price, digit, symbol };
             this.runOrchestrator(newTick);
+          } else if (msgType === "proposal") {
+            // Proposal received — confirm price then buy using its ID.
+            const proposalId = response.proposal?.id;
+            const price = response.proposal?.ask_price;
+            if (proposalId && this.derivWs && this.derivWs.readyState === WebSocket.OPEN) {
+              this.derivWs.send(JSON.stringify({ buy: proposalId, price }));
+            }
           } else if (msgType === "buy") {
             this.addLog("success", `Deriv Contract Bought: ${response.buy.contract_id}. Payout potential: $${response.buy.payout}`);
+            const parsedBal = Number(response.buy.balance_after);
+            if (!isNaN(parsedBal)) {
+              this.balance = parsedBal;
+              this.status.balance = this.balance;
+            }
           }
         } catch (e: any) {
           console.error(`[${this.id}] Error parsing Deriv message:`, e);
@@ -976,7 +1058,9 @@ class TradingSession {
     } catch (err: any) {
       this.status.connectionStatus = "DISCONNECTED";
       this.status.streamStatus = "ERROR";
-      this.addLog("error", `Failed to instantiate Deriv client: ${err.message}`);
+      this.addLog("error", `Failed to connect to Deriv: ${err.message}`);
+      this.status.derivMode = "SIMULATED";
+      this.startSimulator();
       this.broadcastSummary();
     }
   }
@@ -984,22 +1068,21 @@ class TradingSession {
   executeRealDerivTrade(predictionDigit: number, activeStake: number) {
     if (!this.derivWs || this.derivWs.readyState !== WebSocket.OPEN) return;
 
+    // New Options API requires a two-step flow: request a proposal, then buy
+    // using the proposal's ID once it comes back on the message handler above.
     const req = {
-      buy: 1,
-      price: activeStake,
-      parameters: {
-        amount: activeStake,
-        basis: "stake",
-        contract_type: "DIGITMATCH",
-        currency: "USD",
-        duration: 1,
-        duration_unit: "t",
-        barrier: predictionDigit.toString(),
-        symbol: this.config.symbol
-      }
+      proposal: 1,
+      amount: activeStake,
+      basis: "stake",
+      contract_type: "DIGITMATCH",
+      currency: "USD",
+      duration: 1,
+      duration_unit: "t",
+      barrier: predictionDigit.toString(),
+      underlying_symbol: this.config.symbol
     };
 
-    this.addLog("trade", `📡 SENT BUY PROPOSAL TO DERIV: Matches Digits on ${this.config.symbol}. Stake: $${activeStake}. Barrier: [${predictionDigit}]`);
+    this.addLog("trade", `📡 REQUESTING PROPOSAL FROM DERIV: Matches Digits on ${this.config.symbol}. Stake: $${activeStake}. Barrier: [${predictionDigit}]`);
     this.derivWs.send(JSON.stringify(req));
   }
 
