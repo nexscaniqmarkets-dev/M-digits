@@ -341,6 +341,22 @@ export default function App() {
     }
   };
 
+  const handleClearLogs = async () => {
+    try {
+      const uId = userIdRef.current;
+      const res = await fetch(`/api/action?userId=${encodeURIComponent(uId)}`, {
+        method: "POST",
+        headers: authHeaders({ "Content-Type": "application/json" }),
+        body: JSON.stringify({ userId: uId, action: "CLEAR_LOGS" })
+      });
+      if (res.ok) {
+        fetchSummaryREST();
+      }
+    } catch (err) {
+      console.error("Failed to clear logs:", err);
+    }
+  };
+
   const handleEmergencyStop = async () => {
     try {
       const uId = userIdRef.current;
@@ -449,6 +465,7 @@ export default function App() {
           {activeTab === "autotrade" && (
             <AutoTradeView 
               userId={activeProfile.id}
+              onClearLogs={handleClearLogs}
               status={status}
               config={config}
               logs={logs}
