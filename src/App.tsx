@@ -22,7 +22,7 @@ import {
   SmartAnalysisResult,
   UserAccountProfile
 } from "./types";
-import { initTelegramWebApp, switchActiveProfile, getTelegramInitData, authHeaders } from "./lib/telegram";
+import { initTelegramWebApp, switchActiveProfile, getTelegramInitData, authHeaders, getMultipleFromCloudStorage } from "./lib/telegram";
 
 export default function App() {
   const [activeProfile, setActiveProfile] = useState<UserAccountProfile>(() => initTelegramWebApp());
@@ -86,6 +86,37 @@ export default function App() {
 
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const cloudRestoreAttemptedRef = useRef(false);
+
+  const restoreDerivCredentialsFromCloud = useCallback(async () => {
+    try {
+      const values = await getMultipleFromCloudStorage(["deriv_token", "deriv_app_id", "deriv_account_type"]);
+      const savedToken = values["deriv_token"];
+      if (!savedToken) return; // nothing to restore
+
+      const uId = userIdRef.current;
+      const res = await fetch(`/api/config?userId=${encodeURIComponent(uId)}`, {
+        method: "POST",
+        headers: authHeaders({ "Content-Type": "application/json" }),
+        body: JSON.stringify({
+          userId: uId,
+          derivToken: savedToken,
+          derivAppId: values["deriv_app_id"] || "1089",
+          derivAccountType: (values["deriv_account_type"] as "demo" | "real") || "demo"
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setConfig(data.config);
+        setStatus(data.status);
+        // No need to call fetchSummaryREST here — the existing 3s poll /
+        // WebSocket connection will naturally pick up the reconnected
+        // Deriv session's fresh data on its next cycle.
+      }
+    } catch (err) {
+      console.warn("Failed to restore Deriv credentials from CloudStorage:", err);
+    }
+  }, []);
 
   const fetchSummaryREST = useCallback(async () => {
     try {
@@ -96,6 +127,14 @@ export default function App() {
       if (res.ok) {
         const data: AnalysisSummary = await res.json();
         updateLocalState(data, uId);
+
+        // If the server has no Deriv token on file (e.g. after a redeploy
+        // wiped its disk), try restoring it from Telegram's CloudStorage
+        // once per session rather than repeatedly asking the user to retype it.
+        if (!cloudRestoreAttemptedRef.current && data.config && !data.config.derivToken) {
+          cloudRestoreAttemptedRef.current = true;
+          restoreDerivCredentialsFromCloud();
+        }
       }
     } catch (err) {
       console.warn("REST summary poll failed, waiting for WebSocket:", err);
