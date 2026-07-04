@@ -186,6 +186,7 @@ class TradingSession {
     symbol: "R_100",
     derivToken: "",
     derivAppId: "1089",
+    derivAccountType: "demo",
     martingaleEnabled: false,
     martingaleMultiplier: 1.5,
     martingaleMaxSteps: 5,
@@ -924,7 +925,17 @@ class TradingSession {
       }
 
       // Prefer a real (non-virtual) account since this is LIVE mode; fall back to first.
-      const account = accounts.find((a: any) => !a.is_virtual && a.account_type !== "demo") ?? accounts[0];
+      // Pick the account matching the user's demo/real toggle. Fall back to
+      // any account of that type; if none exists, fall back to first account
+      // available rather than silently switching account types.
+      const wantsDemo = this.config.derivAccountType !== "real";
+      const account =
+        accounts.find((a: any) => (wantsDemo ? !!a.is_virtual : !a.is_virtual)) ?? accounts[0];
+      if (wantsDemo && !account.is_virtual) {
+        this.addLog("info", `No demo/virtual account found on this token — using ${account.account_id || account.loginid} instead.`);
+      } else if (!wantsDemo && account.is_virtual) {
+        this.addLog("info", `No real account found on this token — using demo account ${account.account_id || account.loginid} instead.`);
+      }
       const accountId = account.account_id || account.loginid;
       this.derivAccountCurrency = account.currency || "USD";
 
@@ -1177,6 +1188,11 @@ app.post("/api/config", (req, res) => {
       credentialsChanged = true;
     }
   }
+  if (newConfig.derivAccountType !== undefined && newConfig.derivAccountType !== session.config.derivAccountType) {
+    session.config.derivAccountType = newConfig.derivAccountType;
+    session.addLog("info", `🔄 Deriv account type switched to: ${newConfig.derivAccountType === "real" ? "REAL" : "DEMO"}`);
+    credentialsChanged = true;
+  }
 
   if (newConfig.analysisMode !== undefined) {
     session.config.analysisMode = newConfig.analysisMode;
@@ -1380,6 +1396,14 @@ app.post("/api/action", (req, res) => {
     session.addLog("info", `Analysis and streaming engine ${session.status.engineStatus}`);
     session.broadcastSummary();
     return res.json({ success: true, engineStatus: session.status.engineStatus });
+  }
+
+  if (action === "CLEAR_LOGS") {
+    session.logs = [];
+    session.addLog("info", `Audit log cleared.`);
+    session.saveState();
+    session.broadcastSummary();
+    return res.json({ success: true });
   }
 
   if (action === "RESET_TRADES") {
@@ -1667,6 +1691,11 @@ wss.on("connection", (ws, request) => {
             session.config.derivAppId = trimmedAppId;
             credentialsChanged = true;
           }
+        }
+        if (newConf.derivAccountType !== undefined && newConf.derivAccountType !== session.config.derivAccountType) {
+          session.config.derivAccountType = newConf.derivAccountType;
+          session.addLog("info", `🔄 Deriv account type switched to: ${newConf.derivAccountType === "real" ? "REAL" : "DEMO"} (WS)`);
+          credentialsChanged = true;
         }
 
         if (newConf.symbol !== undefined && newConf.symbol !== session.config.symbol) {
