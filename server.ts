@@ -984,31 +984,35 @@ class TradingSession {
       }
 
       // Step 3: Connect — this URL is pre-authenticated, no separate authorize message needed.
-      this.derivWs = new WebSocket(wsUrl);
+      const ws = new WebSocket(wsUrl);
+      this.derivWs = ws;
       let messagesReceived = 0;
       const receivedTypes: string[] = [];
 
-      this.derivWs.on("open", () => {
+      ws.on("open", () => {
+        if (this.derivWs !== ws) return; // superseded by a newer connection; ignore
         this.status.connectionStatus = "CONNECTED";
         this.status.derivMode = "LIVE";
         this.addLog("success", `Connected & authorized via Deriv Options API! Account: ${accountId}.`);
 
         this.derivPingInterval = setInterval(() => {
-          if (this.derivWs && this.derivWs.readyState === WebSocket.OPEN) {
+          if (this.derivWs !== ws) return;
+          if (ws.readyState === WebSocket.OPEN) {
             // Native WS-protocol ping frame, in case an intermediary proxy
             // needs transport-level keepalive rather than just app-level JSON.
-            try { this.derivWs.ping(); } catch (e) {}
-            this.derivWs.send(JSON.stringify({ ping: 1 }));
+            try { ws.ping(); } catch (e) {}
+            ws.send(JSON.stringify({ ping: 1 }));
           }
         }, 5000);
 
-        this.derivWs!.send(JSON.stringify({ balance: 1, subscribe: 1 }));
-        this.derivWs!.send(JSON.stringify({ ticks: this.config.symbol, subscribe: 1 }));
+        ws.send(JSON.stringify({ balance: 1, subscribe: 1 }));
+        ws.send(JSON.stringify({ ticks: this.config.symbol, subscribe: 1 }));
         this.status.streamStatus = "LIVE";
         this.broadcastSummary();
       });
 
-      this.derivWs.on("message", (rawData) => {
+      ws.on("message", (rawData) => {
+        if (this.derivWs !== ws) return; // superseded; ignore stale messages
         try {
           const response = JSON.parse(rawData.toString());
           messagesReceived++;
@@ -1053,8 +1057,8 @@ class TradingSession {
             // Proposal received — confirm price then buy using its ID.
             const proposalId = response.proposal?.id;
             const price = response.proposal?.ask_price;
-            if (proposalId && this.derivWs && this.derivWs.readyState === WebSocket.OPEN) {
-              this.derivWs.send(JSON.stringify({ buy: proposalId, price }));
+            if (proposalId && ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({ buy: proposalId, price }));
             }
           } else if (msgType === "buy") {
             this.addLog("success", `Deriv Contract Bought: ${response.buy.contract_id}. Payout potential: $${response.buy.payout}`);
@@ -1069,7 +1073,8 @@ class TradingSession {
         }
       });
 
-      this.derivWs.on("close", (code, reasonBuf) => {
+      ws.on("close", (code, reasonBuf) => {
+        if (this.derivWs !== ws) return; // this is a stale socket we already replaced; ignore its close event
         const reason = reasonBuf?.toString() || "(no reason given)";
         this.status.connectionStatus = "DISCONNECTED";
         this.status.streamStatus = "IDLE";
@@ -1081,11 +1086,12 @@ class TradingSession {
           this.derivReconnectTimeout = setTimeout(() => {
             this.derivReconnectTimeout = null;
             if (this.status.derivMode === "LIVE") this.connectToDeriv();
-          }, 1500);
+          }, 3000);
         }
       });
 
-      this.derivWs.on("error", (err) => {
+      ws.on("error", (err) => {
+        if (this.derivWs !== ws) return;
         this.status.connectionStatus = "DISCONNECTED";
         this.status.streamStatus = "ERROR";
         this.addLog("error", `Deriv WebSocket Error: ${err.message}`);
