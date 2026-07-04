@@ -27,9 +27,11 @@ import {
   Pause
 } from "lucide-react";
 import { Tick, FrequencyInfo, SystemStatus, LogEntry, StrategyConfig, SmartAnalysisResult } from "../types";
+import { authHeaders } from "../lib/telegram";
 import { motion, AnimatePresence } from "motion/react";
 
 interface DashboardViewProps {
+  userId: string;
   ticks: Tick[];
   frequencies: FrequencyInfo[];
   predictionDigit: number | null;
@@ -135,6 +137,7 @@ function parseBoldText(text: string) {
 }
 
 export default function DashboardView({
+  userId,
   ticks,
   frequencies,
   predictionDigit,
@@ -165,9 +168,9 @@ export default function DashboardView({
     setAiError(null);
     setShowAiReport(true);
     try {
-      const response = await fetch("/api/ai-analysis", {
+      const response = await fetch(`/api/ai-analysis?userId=${encodeURIComponent(userId)}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" }
+        headers: authHeaders({ "Content-Type": "application/json" })
       });
       const data = await response.json();
       if (data.success) {
