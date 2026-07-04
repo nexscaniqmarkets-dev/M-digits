@@ -29,9 +29,11 @@ import {
   History
 } from "lucide-react";
 import { SystemStatus, LogEntry, StrategyConfig, SmartAnalysisResult, Trade } from "../types";
+import { authHeaders } from "../lib/telegram";
 import { motion, AnimatePresence } from "motion/react";
 
 interface AutoTradeViewProps {
+  userId: string;
   status: SystemStatus;
   config: StrategyConfig;
   logs: LogEntry[];
@@ -59,6 +61,7 @@ interface AutoTradeViewProps {
 }
 
 export default function AutoTradeView({
+  userId,
   status,
   config,
   logs,
@@ -104,9 +107,9 @@ export default function AutoTradeView({
         
         if (step.progress === 100) {
           try {
-            const response = await fetch("/api/scan-all", {
+            const response = await fetch(`/api/scan-all?userId=${encodeURIComponent(userId)}`, {
               method: "POST",
-              headers: { "Content-Type": "application/json" }
+              headers: authHeaders({ "Content-Type": "application/json" })
             });
             const result = await response.json();
             
