@@ -26,7 +26,8 @@ import {
   ShieldAlert,
   Minimize2,
   Maximize2,
-  History
+  History,
+  Trash2
 } from "lucide-react";
 import { SystemStatus, LogEntry, StrategyConfig, SmartAnalysisResult, Trade } from "../types";
 import { authHeaders } from "../lib/telegram";
@@ -34,6 +35,7 @@ import { motion, AnimatePresence } from "motion/react";
 
 interface AutoTradeViewProps {
   userId: string;
+  onClearLogs: () => void;
   status: SystemStatus;
   config: StrategyConfig;
   logs: LogEntry[];
@@ -62,6 +64,7 @@ interface AutoTradeViewProps {
 
 export default function AutoTradeView({
   userId,
+  onClearLogs,
   status,
   config,
   logs,
@@ -1127,12 +1130,25 @@ export default function AutoTradeView({
                   </div>
                 </div>
 
-                <button
-                  onClick={() => setShowLogsDrawer(false)}
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-850 transition-colors cursor-pointer"
-                >
-                  <X className="w-5 h-5" />
-                </button>
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => {
+                      if (window.confirm("Clear all audit log entries? This can't be undone.")) {
+                        onClearLogs();
+                      }
+                    }}
+                    title="Clear logs"
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-slate-850 transition-colors cursor-pointer"
+                  >
+                    <Trash2 className="w-4.5 h-4.5" />
+                  </button>
+                  <button
+                    onClick={() => setShowLogsDrawer(false)}
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-850 transition-colors cursor-pointer"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
 
               {/* Drawer Content - Live Logs */}
