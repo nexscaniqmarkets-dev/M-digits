@@ -73,6 +73,30 @@ export function getSimulatedProfiles(): UserAccountProfile[] {
   return SIMULATED_PROFILES;
 }
 
+/**
+ * Returns the raw, signed Telegram initData string (not the unsafe parsed
+ * version). This is what the backend actually verifies via HMAC — never
+ * trust initDataUnsafe for anything that touches balance or credentials.
+ * Returns null when not running inside a real Telegram client.
+ */
+export function getTelegramInitData(): string | null {
+  const twa = typeof window !== "undefined" ? window.Telegram?.WebApp : undefined;
+  return twa?.initData || null;
+}
+
+/**
+ * Merges the signed Telegram initData header into a fetch headers object.
+ * Use this on every authenticated REST call so the backend can verify
+ * identity server-side instead of trusting a client-supplied userId alone.
+ */
+export function authHeaders(extra?: Record<string, string>): Record<string, string> {
+  const initData = getTelegramInitData();
+  return {
+    ...(extra || {}),
+    ...(initData ? { "x-telegram-init-data": initData } : {})
+  };
+}
+
 export function switchActiveProfile(profile: UserAccountProfile): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
 }
