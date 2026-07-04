@@ -81,6 +81,7 @@ export default function AutoTradeView({
   const [scanProgress, setScanProgress] = useState(0);
   const [scanMessage, setScanMessage] = useState("");
   const [showLogsDrawer, setShowLogsDrawer] = useState(false);
+  const [expandedLogId, setExpandedLogId] = useState<string | null>(null);
   const terminalEndRef = useRef<HTMLDivElement | null>(null);
 
   // Auto-scroll terminal logs to bottom on new additions
@@ -1163,22 +1164,26 @@ export default function AutoTradeView({
                   </div>
                 ) : (
                   <div className="space-y-1.5">
-                    {logs.map((log) => (
-                      <div 
-                        key={log.id} 
-                        className={`px-3 py-2 rounded-lg border text-[10px] flex items-center justify-between gap-4 font-mono transition-colors ${getLogBg(log.type)}`}
-                      >
-                        <div className="flex items-center gap-2.5 min-w-0">
-                          {getLogIcon(log.type)}
-                          <span className="font-bold tracking-wide uppercase truncate">
-                            {log.message}
+                    {logs.map((log) => {
+                      const isExpanded = expandedLogId === log.id;
+                      return (
+                        <div
+                          key={log.id}
+                          onClick={() => setExpandedLogId(isExpanded ? null : log.id)}
+                          className={`px-3 py-2 rounded-lg border text-[10px] flex items-center justify-between gap-4 font-mono transition-colors cursor-pointer ${getLogBg(log.type)}`}
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            {getLogIcon(log.type)}
+                            <span className={`font-bold tracking-wide uppercase ${isExpanded ? "whitespace-normal break-words" : "truncate"}`}>
+                              {log.message}
+                            </span>
+                          </div>
+                          <span className="text-[9px] font-semibold text-slate-400 opacity-80 uppercase shrink-0">
+                            {new Date(log.timestamp).toLocaleTimeString()}
                           </span>
                         </div>
-                        <span className="text-[9px] font-semibold text-slate-400 opacity-80 uppercase shrink-0">
-                          {new Date(log.timestamp).toLocaleTimeString()}
-                        </span>
-                      </div>
-                    ))}
+                      );
+                    })}
                     <div ref={terminalEndRef} />
                   </div>
                 )}
