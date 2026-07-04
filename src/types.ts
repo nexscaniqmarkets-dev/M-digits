@@ -52,6 +52,7 @@ export interface StrategyConfig {
   symbol: string;
   derivToken: string;
   derivAppId: string;
+  derivAccountType: 'demo' | 'real';
   martingaleEnabled: boolean;
   martingaleMultiplier: number;
   martingaleMaxSteps: number;
