@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Settings, Lock, Globe, RefreshCw, CheckCircle, Shield, Volume2, Smartphone, Key, Bell, ExternalLink } from "lucide-react";
 import { StrategyConfig, SystemStatus } from "../types";
+import { saveToCloudStorage } from "../lib/telegram";
 
 interface SettingsViewProps {
   config: StrategyConfig;
@@ -24,11 +25,20 @@ export default function SettingsView({
     setSuccessMessage(null);
 
     try {
+      const trimmedToken = token.trim();
+      const trimmedAppId = appId.trim();
       await onUpdateConfig({
-        derivToken: token.trim(),
-        derivAppId: appId.trim(),
+        derivToken: trimmedToken,
+        derivAppId: trimmedAppId,
         derivMode: status.derivMode
       });
+      // Persist to Telegram's CloudStorage too, so the token survives a
+      // server redeploy (Render's free tier wipes local disk on every
+      // deploy — CloudStorage lives on Telegram's side, not ours).
+      await Promise.all([
+        saveToCloudStorage("deriv_token", trimmedToken),
+        saveToCloudStorage("deriv_app_id", trimmedAppId)
+      ]);
       setSuccessMessage("✅ Live Deriv Gateway & Credentials synchronized successfully!");
     } catch (err: any) {
       console.error(err);
