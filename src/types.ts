@@ -192,6 +192,12 @@ declare global {
           notificationOccurred: (type: 'error' | 'success' | 'warning') => void;
           selectionChanged: () => void;
         };
+        CloudStorage?: {
+          setItem: (key: string, value: string, callback?: (error: any, success?: boolean) => void) => void;
+          getItem: (key: string, callback: (error: any, value?: string) => void) => void;
+          getItems: (keys: string[], callback: (error: any, values?: Record<string, string>) => void) => void;
+          removeItem: (key: string, callback?: (error: any, success?: boolean) => void) => void;
+        };
       };
     };
   }
