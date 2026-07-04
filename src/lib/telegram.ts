@@ -119,3 +119,78 @@ export function triggerHaptic(style: 'light' | 'medium' | 'heavy' | 'selection' 
     // Ignore haptic errors on unsupported devices
   }
 }
+
+/**
+ * Persists a value in Telegram's per-user CloudStorage, tied to the user's
+ * Telegram account rather than our server's disk. This survives server
+ * redeploys/restarts since it isn't stored on our infrastructure at all.
+ * No-ops outside real Telegram (e.g. desktop browser preview).
+ */
+export function saveToCloudStorage(key: string, value: string): Promise<void> {
+  return new Promise((resolve) => {
+    const twa = typeof window !== "undefined" ? window.Telegram?.WebApp : undefined;
+    if (!twa?.CloudStorage) {
+      resolve();
+      return;
+    }
+    try {
+      twa.CloudStorage.setItem(key, value, () => resolve());
+    } catch (e) {
+      resolve();
+    }
+  });
+}
+
+/**
+ * Reads a value back from Telegram's CloudStorage. Resolves to null if
+ * unavailable, unset, or on any error — callers should treat null as
+ * "nothing saved" and fall back gracefully.
+ */
+export function getFromCloudStorage(key: string): Promise<string | null> {
+  return new Promise((resolve) => {
+    const twa = typeof window !== "undefined" ? window.Telegram?.WebApp : undefined;
+    if (!twa?.CloudStorage) {
+      resolve(null);
+      return;
+    }
+    try {
+      twa.CloudStorage.getItem(key, (error, value) => {
+        if (error || !value) {
+          resolve(null);
+        } else {
+          resolve(value);
+        }
+      });
+    } catch (e) {
+      resolve(null);
+    }
+  });
+}
+
+/**
+ * Reads multiple CloudStorage keys at once. Missing/unavailable keys come
+ * back as null in the result map rather than being omitted.
+ */
+export function getMultipleFromCloudStorage(keys: string[]): Promise<Record<string, string | null>> {
+  return new Promise((resolve) => {
+    const twa = typeof window !== "undefined" ? window.Telegram?.WebApp : undefined;
+    const empty = Object.fromEntries(keys.map(k => [k, null]));
+    if (!twa?.CloudStorage) {
+      resolve(empty);
+      return;
+    }
+    try {
+      twa.CloudStorage.getItems(keys, (error, values) => {
+        if (error || !values) {
+          resolve(empty);
+          return;
+        }
+        const result: Record<string, string | null> = {};
+        keys.forEach(k => { result[k] = values[k] || null; });
+        resolve(result);
+      });
+    } catch (e) {
+      resolve(empty);
+    }
+  });
+}
