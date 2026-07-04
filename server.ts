@@ -177,6 +177,7 @@ class TradingSession {
   trades: Trade[] = [];
   logs: LogEntry[] = [];
   balance = 10000.00;
+  simulatedBalance = 10000.00;
   reservedBalance = 0.00;
   sessionStartBalance = 10000.00;
 
@@ -269,6 +270,7 @@ class TradingSession {
       ensureSessionsDir();
       const data = {
         balance: this.balance,
+        simulatedBalance: this.simulatedBalance,
         reservedBalance: this.reservedBalance,
         trades: this.trades,
         logs: this.logs,
@@ -293,6 +295,7 @@ class TradingSession {
           this.balance = data.balance;
           this.status.balance = this.balance;
         }
+        this.simulatedBalance = typeof data.simulatedBalance === "number" ? data.simulatedBalance : this.balance;
         if (typeof data.reservedBalance === "number") {
           this.reservedBalance = data.reservedBalance;
           this.status.reservedBalance = this.reservedBalance;
@@ -650,6 +653,7 @@ class TradingSession {
         this.pendingTrade.payout = parseFloat((this.pendingTrade.stake + profit).toFixed(2));
         this.pendingTrade.result = "WIN";
         this.balance = parseFloat((this.balance + profit).toFixed(2));
+        if (this.status.derivMode === "SIMULATED") this.simulatedBalance = this.balance;
         this.pendingTrade.balanceAfter = this.balance;
         this.status.balance = this.balance;
         this.consecutiveLosses = 0;
@@ -661,6 +665,7 @@ class TradingSession {
         this.pendingTrade.payout = 0.0;
         this.pendingTrade.result = "LOSS";
         this.balance = parseFloat(Math.max(0, this.balance + loss).toFixed(2));
+        if (this.status.derivMode === "SIMULATED") this.simulatedBalance = this.balance;
         this.pendingTrade.balanceAfter = this.balance;
         this.status.balance = this.balance;
 
@@ -870,9 +875,12 @@ class TradingSession {
     if (this.derivPingInterval) clearInterval(this.derivPingInterval);
 
     if (this.status.derivMode === "SIMULATED") {
+      this.balance = this.simulatedBalance;
+      this.status.balance = this.balance;
       this.status.connectionStatus = "CONNECTED";
       this.status.streamStatus = "LIVE";
       this.startSimulator();
+      this.broadcastSummary();
       return;
     }
 
@@ -1343,6 +1351,7 @@ app.post("/api/sync-state", (req, res) => {
     if (typeof clientBalance === "number" && !isNaN(clientBalance)) {
       if (session.balance === 10000.00 && clientBalance !== 10000.00) {
         session.balance = clientBalance;
+        session.simulatedBalance = clientBalance;
         session.status.balance = session.balance;
         modified = true;
       }
@@ -1437,6 +1446,7 @@ app.post("/api/action", (req, res) => {
 
   if (action === "RESET_BALANCE") {
     session.balance = 10000.00;
+    session.simulatedBalance = 10000.00;
     session.reservedBalance = 0.00;
     session.status.balance = session.balance;
     session.status.reservedBalance = session.reservedBalance;
