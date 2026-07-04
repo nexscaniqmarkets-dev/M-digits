@@ -10,6 +10,7 @@ import {
   Shield
 } from "lucide-react";
 import { StrategyConfig, SystemStatus } from "../types";
+import { saveToCloudStorage } from "../lib/telegram";
 
 interface StrategyViewProps {
   config: StrategyConfig;
@@ -43,6 +44,7 @@ export default function StrategyView({
   const handleAccountTypeSwitch = async (type: "demo" | "real") => {
     try {
       await onUpdateConfig({ derivAccountType: type });
+      await saveToCloudStorage("deriv_account_type", type);
     } catch (err) {
       console.error(err);
     }
