@@ -25,8 +25,8 @@ export default function SettingsView({
 
     try {
       await onUpdateConfig({
-        derivToken: token,
-        derivAppId: appId,
+        derivToken: token.trim(),
+        derivAppId: appId.trim(),
         derivMode: status.derivMode
       });
       setSuccessMessage("✅ Live Deriv Gateway & Credentials synchronized successfully!");
@@ -87,6 +87,10 @@ export default function SettingsView({
               value={token}
               onChange={(e) => setToken(e.target.value)}
               placeholder="••••••••••••••••••••"
+              autoCapitalize="off"
+              autoCorrect="off"
+              autoComplete="off"
+              spellCheck={false}
               className="w-full text-xs px-4 py-3.5 border border-[#E5E0D5] rounded-2xl bg-[#FAF8F5] text-[#2B2721] focus:outline-none focus:border-[#937238] focus:bg-white font-mono transition"
             />
           </div>
