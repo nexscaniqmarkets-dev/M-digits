@@ -21,6 +21,7 @@ interface StrategyViewProps {
 }
 
 export default function StrategyView({
+  config,
   status,
   onUpdateConfig,
   onResetBalance,
@@ -34,6 +35,14 @@ export default function StrategyView({
   const handleModeSwitch = async (newMode: "SIMULATED" | "LIVE") => {
     try {
       await onUpdateConfig({ derivMode: newMode });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleAccountTypeSwitch = async (type: "demo" | "real") => {
+    try {
+      await onUpdateConfig({ derivAccountType: type });
     } catch (err) {
       console.error(err);
     }
@@ -120,6 +129,43 @@ export default function StrategyView({
           </button>
         </div>
       </div>
+
+      {!isSimulated && (
+        <div className="space-y-2">
+          <label className="text-[11px] font-mono font-bold tracking-widest text-[#665F55] uppercase block px-1">
+            DERIV ACCOUNT TYPE
+          </label>
+          <div className="bg-[#F4F1EA] p-1.5 rounded-2xl border border-[#E4DFD3] grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => handleAccountTypeSwitch("demo")}
+              className={`py-3 px-4 rounded-xl font-display text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+                config.derivAccountType !== "real"
+                  ? "bg-white text-[#2B2721] font-black shadow-xs border border-[#E5E0D5]"
+                  : "text-[#8C8377] hover:text-[#5C5346] font-bold"
+              }`}
+            >
+              Demo
+            </button>
+            <button
+              type="button"
+              onClick={() => handleAccountTypeSwitch("real")}
+              className={`py-3 px-4 rounded-xl font-display text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+                config.derivAccountType === "real"
+                  ? "bg-white text-[#2B2721] font-black shadow-xs border border-[#E5E0D5]"
+                  : "text-[#8C8377] hover:text-[#5C5346] font-bold"
+              }`}
+            >
+              Real
+            </button>
+          </div>
+          {config.derivAccountType === "real" && (
+            <p className="text-[10px] font-mono text-red-600 uppercase tracking-wider px-1">
+              ⚠ Real money — trades placed here use actual funds.
+            </p>
+          )}
+        </div>
+      )}
 
       {/* AVAILABLE BALANCE Card */}
       <div className="bg-white border border-[#E5E0D5] rounded-3xl p-6 shadow-xs relative overflow-hidden transition-all hover:border-[#937238]/40">
