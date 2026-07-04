@@ -972,6 +972,8 @@ class TradingSession {
 
       // Step 3: Connect — this URL is pre-authenticated, no separate authorize message needed.
       this.derivWs = new WebSocket(wsUrl);
+      let messagesReceived = 0;
+      const receivedTypes: string[] = [];
 
       this.derivWs.on("open", () => {
         this.status.connectionStatus = "CONNECTED";
@@ -980,9 +982,12 @@ class TradingSession {
 
         this.derivPingInterval = setInterval(() => {
           if (this.derivWs && this.derivWs.readyState === WebSocket.OPEN) {
+            // Native WS-protocol ping frame, in case an intermediary proxy
+            // needs transport-level keepalive rather than just app-level JSON.
+            try { this.derivWs.ping(); } catch (e) {}
             this.derivWs.send(JSON.stringify({ ping: 1 }));
           }
-        }, 30000);
+        }, 5000);
 
         this.derivWs!.send(JSON.stringify({ balance: 1, subscribe: 1 }));
         this.derivWs!.send(JSON.stringify({ ticks: this.config.symbol, subscribe: 1 }));
@@ -993,6 +998,10 @@ class TradingSession {
       this.derivWs.on("message", (rawData) => {
         try {
           const response = JSON.parse(rawData.toString());
+          messagesReceived++;
+          if (response.msg_type && !receivedTypes.includes(response.msg_type)) {
+            receivedTypes.push(response.msg_type);
+          }
 
           if (response.error) {
             const errMsg = response.error.message;
@@ -1051,7 +1060,7 @@ class TradingSession {
         const reason = reasonBuf?.toString() || "(no reason given)";
         this.status.connectionStatus = "DISCONNECTED";
         this.status.streamStatus = "IDLE";
-        this.addLog("error", `Deriv API Connection Closed. Code: ${code}, Reason: ${reason}`);
+        this.addLog("error", `Deriv API Connection Closed. Code: ${code}, Reason: ${reason}. Messages received before close: ${messagesReceived} (types: ${receivedTypes.join(", ") || "none"}).`);
         this.broadcastSummary();
 
         if (this.status.derivMode === "LIVE") {
