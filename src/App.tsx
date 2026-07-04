@@ -22,7 +22,7 @@ import {
   SmartAnalysisResult,
   UserAccountProfile
 } from "./types";
-import { initTelegramWebApp, switchActiveProfile } from "./lib/telegram";
+import { initTelegramWebApp, switchActiveProfile, getTelegramInitData, authHeaders } from "./lib/telegram";
 
 export default function App() {
   const [activeProfile, setActiveProfile] = useState<UserAccountProfile>(() => initTelegramWebApp());
@@ -90,7 +90,9 @@ export default function App() {
   const fetchSummaryREST = useCallback(async () => {
     try {
       const uId = userIdRef.current;
-      const res = await fetch(`/api/summary?userId=${encodeURIComponent(uId)}`);
+      const res = await fetch(`/api/summary?userId=${encodeURIComponent(uId)}`, {
+        headers: authHeaders()
+      });
       if (res.ok) {
         const data: AnalysisSummary = await res.json();
         updateLocalState(data, uId);
@@ -111,7 +113,7 @@ export default function App() {
       if (savedBalance || savedReserved || savedTrades || savedLogs || savedConfig) {
         await fetch(`/api/sync-state?userId=${encodeURIComponent(uId)}`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: authHeaders({ "Content-Type": "application/json" }),
           body: JSON.stringify({
             userId: uId,
             balance: savedBalance ? parseFloat(savedBalance) : null,
@@ -134,8 +136,9 @@ export default function App() {
 
     const uId = userIdRef.current;
     const uName = usernameRef.current;
+    const initData = getTelegramInitData();
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const wsUrl = `${protocol}//${window.location.host}/ws?userId=${encodeURIComponent(uId)}&username=${encodeURIComponent(uName)}`;
+    const wsUrl = `${protocol}//${window.location.host}/ws?userId=${encodeURIComponent(uId)}&username=${encodeURIComponent(uName)}${initData ? `&initData=${encodeURIComponent(initData)}` : ""}`;
     
     console.log("Connecting browser to internal websocket server:", wsUrl);
     
@@ -255,7 +258,7 @@ export default function App() {
       const uId = userIdRef.current;
       const res = await fetch(`/api/action?userId=${encodeURIComponent(uId)}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: authHeaders({ "Content-Type": "application/json" }),
         body: JSON.stringify({ 
           userId: uId,
           action: "TOGGLE_AUTO_TRADE",
@@ -278,7 +281,7 @@ export default function App() {
       const uId = userIdRef.current;
       const res = await fetch(`/api/action?userId=${encodeURIComponent(uId)}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: authHeaders({ "Content-Type": "application/json" }),
         body: JSON.stringify({ userId: uId, action: "TOGGLE_ENGINE" })
       });
       if (res.ok) {
@@ -295,7 +298,7 @@ export default function App() {
       const uId = userIdRef.current;
       const res = await fetch(`/api/action?userId=${encodeURIComponent(uId)}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: authHeaders({ "Content-Type": "application/json" }),
         body: JSON.stringify({ userId: uId, action: "RESET_TRADES" })
       });
       if (res.ok) {
@@ -311,7 +314,7 @@ export default function App() {
       const uId = userIdRef.current;
       const res = await fetch(`/api/action?userId=${encodeURIComponent(uId)}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: authHeaders({ "Content-Type": "application/json" }),
         body: JSON.stringify({ userId: uId, action: "RESET_BALANCE" })
       });
       if (res.ok) {
@@ -327,7 +330,7 @@ export default function App() {
       const uId = userIdRef.current;
       const res = await fetch(`/api/action?userId=${encodeURIComponent(uId)}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: authHeaders({ "Content-Type": "application/json" }),
         body: JSON.stringify({ userId: uId, action: "MANAGE_VAULT", subAction, amount })
       });
       if (res.ok) {
@@ -343,7 +346,7 @@ export default function App() {
       const uId = userIdRef.current;
       const res = await fetch(`/api/action?userId=${encodeURIComponent(uId)}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: authHeaders({ "Content-Type": "application/json" }),
         body: JSON.stringify({ userId: uId, action: "EMERGENCY_STOP" })
       });
       if (res.ok) {
@@ -360,7 +363,7 @@ export default function App() {
       const uId = userIdRef.current;
       const res = await fetch(`/api/config?userId=${encodeURIComponent(uId)}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: authHeaders({ "Content-Type": "application/json" }),
         body: JSON.stringify({ userId: uId, ...newConfig })
       });
       if (res.ok) {
@@ -415,6 +418,7 @@ export default function App() {
         <main className="p-3 sm:p-6 pt-4 sm:pt-6 pb-28 max-w-7xl mx-auto w-full flex-1 overflow-x-hidden">
           {activeTab === "dashboard" && (
             <DashboardView 
+              userId={activeProfile.id}
               ticks={ticks}
               frequencies={frequencies}
               predictionDigit={predictionDigit}
@@ -444,6 +448,7 @@ export default function App() {
 
           {activeTab === "autotrade" && (
             <AutoTradeView 
+              userId={activeProfile.id}
               status={status}
               config={config}
               logs={logs}
