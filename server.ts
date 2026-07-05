@@ -30,10 +30,12 @@ import {
   SmartAnalysisResult
 } from "./src/types.js";
 import { verifyTelegramInitData, VerifiedTelegramUser } from "./src/telegramAuth.js";
+import { encryptSecret, decryptSecret } from "./src/secretsCrypto.js";
 
 const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "";
+const SESSION_ENCRYPTION_KEY = process.env.SESSION_ENCRYPTION_KEY || "";
 app.use(express.json());
 
 const server = http.createServer(app);
@@ -268,13 +270,25 @@ class TradingSession {
   saveState() {
     try {
       ensureSessionsDir();
+
+      // Never write the plaintext Deriv token to disk. If an encryption key
+      // is configured, store an encrypted blob instead and omit derivToken
+      // entirely; otherwise fall back to plaintext (with a startup warning
+      // already logged) so nothing breaks for setups that haven't set the
+      // key yet.
+      const configToPersist: any = { ...this.config };
+      if (SESSION_ENCRYPTION_KEY && configToPersist.derivToken) {
+        configToPersist.derivTokenEncrypted = encryptSecret(configToPersist.derivToken, SESSION_ENCRYPTION_KEY);
+        delete configToPersist.derivToken;
+      }
+
       const data = {
         balance: this.balance,
         simulatedBalance: this.simulatedBalance,
         reservedBalance: this.reservedBalance,
         trades: this.trades,
         logs: this.logs,
-        config: this.config,
+        config: configToPersist,
         currentMartingaleStep: this.currentMartingaleStep,
         sessionStartBalance: this.sessionStartBalance
       };
@@ -303,7 +317,15 @@ class TradingSession {
         if (Array.isArray(data.trades)) this.trades = data.trades;
         if (Array.isArray(data.logs)) this.logs = data.logs;
         if (data.config && typeof data.config === "object") {
-          this.config = { ...this.config, ...data.config };
+          const loadedConfig: any = { ...data.config };
+          if (loadedConfig.derivTokenEncrypted) {
+            const decrypted = SESSION_ENCRYPTION_KEY
+              ? decryptSecret(loadedConfig.derivTokenEncrypted, SESSION_ENCRYPTION_KEY)
+              : null;
+            loadedConfig.derivToken = decrypted || ""; // wrong/missing key -> require re-entry rather than silently failing later
+            delete loadedConfig.derivTokenEncrypted;
+          }
+          this.config = { ...this.config, ...loadedConfig };
           this.status.symbol = this.config.symbol;
         }
         if (typeof data.currentMartingaleStep === "number") this.currentMartingaleStep = data.currentMartingaleStep;
@@ -1512,6 +1534,11 @@ app.post("/api/action", (req, res) => {
       session.addLog("success", `🔒 Safe Preserved: Reserved $${session.reservedBalance.toFixed(2)} USD in safe. Active demo testing capital set to exactly $${session.balance.toFixed(2)} USD.`);
     }
 
+    // Vault is a sandbox-only concept — always mirror the result back into
+    // simulatedBalance so it doesn't get overwritten by a stale value on
+    // the next reconnect/mode-switch to Simulated.
+    session.simulatedBalance = session.balance;
+
     session.saveState();
     session.broadcastSummary();
     return res.json({ success: true, balance: session.balance, reservedBalance: session.reservedBalance });
@@ -1807,6 +1834,10 @@ if (process.env.NODE_ENV === "production") {
 
 if (!BOT_TOKEN) {
   console.warn("[auth] TELEGRAM_BOT_TOKEN is not set. Running in DEV MODE: sessions are keyed by unverified client-supplied userId. Set TELEGRAM_BOT_TOKEN before sharing this app with real users.");
+}
+
+if (!SESSION_ENCRYPTION_KEY) {
+  console.warn("[security] SESSION_ENCRYPTION_KEY is not set. Deriv tokens will be stored in PLAINTEXT on disk. Set SESSION_ENCRYPTION_KEY (any long random string) before sharing this app with real users.");
 }
 
 server.listen(PORT, "0.0.0.0", () => {
