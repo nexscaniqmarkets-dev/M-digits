@@ -937,16 +937,17 @@ class TradingSession {
         return;
       }
 
-      // Prefer a real (non-virtual) account since this is LIVE mode; fall back to first.
       // Pick the account matching the user's demo/real toggle. Fall back to
       // any account of that type; if none exists, fall back to first account
       // available rather than silently switching account types.
+      const isDemoAccount = (a: any) => a.account_type === "demo" || !!a.is_virtual;
       const wantsDemo = this.config.derivAccountType !== "real";
       const account =
-        accounts.find((a: any) => (wantsDemo ? !!a.is_virtual : !a.is_virtual)) ?? accounts[0];
-      if (wantsDemo && !account.is_virtual) {
+        accounts.find((a: any) => (wantsDemo ? isDemoAccount(a) : !isDemoAccount(a))) ?? accounts[0];
+      const accountIsDemo = isDemoAccount(account);
+      if (wantsDemo && !accountIsDemo) {
         this.addLog("info", `No demo/virtual account found on this token — using ${account.account_id || account.loginid} instead.`);
-      } else if (!wantsDemo && account.is_virtual) {
+      } else if (!wantsDemo && accountIsDemo) {
         this.addLog("info", `No real account found on this token — using demo account ${account.account_id || account.loginid} instead.`);
       }
       const accountId = account.account_id || account.loginid;
@@ -993,7 +994,7 @@ class TradingSession {
         if (this.derivWs !== ws) return; // superseded by a newer connection; ignore
         this.status.connectionStatus = "CONNECTED";
         this.status.derivMode = "LIVE";
-        this.addLog("success", `Connected & authorized via Deriv Options API! Account: ${accountId}.`);
+        this.addLog("success", `Connected & authorized via Deriv Options API! Account: ${accountId} (${accountIsDemo ? "DEMO" : "REAL"}).`);
 
         this.derivPingInterval = setInterval(() => {
           if (this.derivWs !== ws) return;
