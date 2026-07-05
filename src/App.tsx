@@ -22,7 +22,7 @@ import {
   SmartAnalysisResult,
   UserAccountProfile
 } from "./types";
-import { initTelegramWebApp, switchActiveProfile, getTelegramInitData, authHeaders, getMultipleFromCloudStorage } from "./lib/telegram";
+import { initTelegramWebApp, switchActiveProfile, getTelegramInitData, authHeaders, getMultipleFromCloudStorage, saveToCloudStorage } from "./lib/telegram";
 
 export default function App() {
   const [activeProfile, setActiveProfile] = useState<UserAccountProfile>(() => initTelegramWebApp());
@@ -143,11 +143,18 @@ export default function App() {
 
   const syncStateWithBackend = useCallback(async (uId: string) => {
     try {
-      const savedBalance = localStorage.getItem(`sandbox_balance_${uId}`);
-      const savedReserved = localStorage.getItem(`sandbox_reserved_balance_${uId}`);
+      const localBalance = localStorage.getItem(`sandbox_balance_${uId}`);
+      const localReserved = localStorage.getItem(`sandbox_reserved_balance_${uId}`);
       const savedTrades = localStorage.getItem(`sandbox_trades_${uId}`);
       const savedLogs = localStorage.getItem(`sandbox_logs_${uId}`);
       const savedConfig = localStorage.getItem(`sandbox_config_${uId}`);
+
+      // CloudStorage is tied to the user's Telegram account rather than this
+      // WebView's local storage, so it survives more reliably across server
+      // redeploys and reopening the Mini App. Prefer it when available.
+      const cloudValues = await getMultipleFromCloudStorage(["sandbox_balance", "sandbox_reserved_balance"]);
+      const savedBalance = cloudValues["sandbox_balance"] || localBalance;
+      const savedReserved = cloudValues["sandbox_reserved_balance"] || localReserved;
 
       if (savedBalance || savedReserved || savedTrades || savedLogs || savedConfig) {
         await fetch(`/api/sync-state?userId=${encodeURIComponent(uId)}`, {
@@ -270,9 +277,11 @@ export default function App() {
     if (data.status) {
       if (data.status.derivMode === "SIMULATED" && typeof data.status.balance === "number") {
         localStorage.setItem(`sandbox_balance_${uId}`, data.status.balance.toString());
+        saveToCloudStorage("sandbox_balance", data.status.balance.toString());
       }
       if (typeof data.status.reservedBalance === "number") {
         localStorage.setItem(`sandbox_reserved_balance_${uId}`, data.status.reservedBalance.toString());
+        saveToCloudStorage("sandbox_reserved_balance", data.status.reservedBalance.toString());
       }
     }
     if (data.trades) {
