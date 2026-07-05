@@ -1488,6 +1488,9 @@ app.post("/api/action", (req, res) => {
   }
 
   if (action === "MANAGE_VAULT") {
+    if (session.status.derivMode !== "SIMULATED") {
+      return res.status(400).json({ error: "The Reserved Bank vault is only available in Sandbox Demo mode." });
+    }
     const { subAction, amount } = req.body;
     const amt = parseFloat(amount || "0");
 
