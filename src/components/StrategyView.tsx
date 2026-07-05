@@ -189,121 +189,125 @@ export default function StrategyView({
         </div>
       </div>
 
-      {/* RESERVED BANK Card */}
-      <div className="bg-white border border-[#E5E0D5] rounded-3xl p-6 shadow-xs relative overflow-hidden transition-all hover:border-[#937238]/40">
-        <div className="flex items-start justify-between">
-          <div>
-            <span className="text-xs font-bold tracking-widest text-[#665F55] uppercase block">
-              RESERVED BANK
-            </span>
-            <div className="font-display font-black text-3xl sm:text-4xl text-[#2B2721] mt-3 tracking-tight">
-              ${reservedBankFormatted}
+      {isSimulated && (
+        <>
+          {/* RESERVED BANK Card */}
+          <div className="bg-white border border-[#E5E0D5] rounded-3xl p-6 shadow-xs relative overflow-hidden transition-all hover:border-[#937238]/40">
+            <div className="flex items-start justify-between">
+              <div>
+                <span className="text-xs font-bold tracking-widest text-[#665F55] uppercase block">
+                  RESERVED BANK
+                </span>
+                <div className="font-display font-black text-3xl sm:text-4xl text-[#2B2721] mt-3 tracking-tight">
+                  ${reservedBankFormatted}
+                </div>
+              </div>
+              <div className="w-11 h-11 rounded-2xl bg-[#F4F1EA] border border-[#E4DFD3] flex items-center justify-center text-[#937238] shadow-2xs shrink-0">
+                <Landmark className="w-6 h-6 stroke-[2]" />
+              </div>
+            </div>
+
+            <div className="mt-5 pt-4 border-t border-[#F4F1EA] flex items-center justify-between">
+              <div className="flex items-center gap-1.5 text-xs font-black text-[#665F55] uppercase tracking-wider">
+                <Shield className="w-4 h-4 text-[#937238] fill-[#937238]/20" />
+                <span>SECURED</span>
+              </div>
+              {onResetBalance && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (window.confirm("Reset demo bank and active trading balance back to $10,000.00?")) {
+                      onResetBalance();
+                    }
+                  }}
+                  className="text-xs font-bold text-rose-600 hover:text-rose-700 underline cursor-pointer transition"
+                >
+                  Reset bank
+                </button>
+              )}
             </div>
           </div>
-          <div className="w-11 h-11 rounded-2xl bg-[#F4F1EA] border border-[#E4DFD3] flex items-center justify-center text-[#937238] shadow-2xs shrink-0">
-            <Landmark className="w-6 h-6 stroke-[2]" />
-          </div>
-        </div>
 
-        <div className="mt-5 pt-4 border-t border-[#F4F1EA] flex items-center justify-between">
-          <div className="flex items-center gap-1.5 text-xs font-black text-[#665F55] uppercase tracking-wider">
-            <Shield className="w-4 h-4 text-[#937238] fill-[#937238]/20" />
-            <span>SECURED</span>
-          </div>
-          {isSimulated && onResetBalance && (
+          {/* INTERNAL TRANSFER Card */}
+          <div className="bg-white border border-[#E5E0D5] rounded-3xl p-6 shadow-xs space-y-5">
+            <span className="font-display font-black text-sm tracking-widest text-[#2B2721] uppercase block">
+              INTERNAL TRANSFER
+            </span>
+
+            <div className="space-y-2">
+              <label className="text-[10px] font-mono font-bold tracking-widest text-[#665F55] uppercase block">
+                AMOUNT TO MOVE
+              </label>
+              <div className="bg-[#FAF8F5] border border-[#E4DFD3] rounded-2xl p-4 flex items-center justify-between focus-within:border-[#937238] focus-within:bg-white transition shadow-2xs">
+                <input
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  placeholder="0.00"
+                  value={transferAmount}
+                  onChange={(e) => setTransferAmount(e.target.value)}
+                  className="font-mono font-black text-2xl text-[#2B2721] bg-transparent focus:outline-none w-full placeholder:text-[#D4CEBF]"
+                />
+                <span className="font-display font-black text-sm text-[#2B2721] uppercase shrink-0 pl-2">
+                  USD
+                </span>
+              </div>
+            </div>
+
+            {/* Direction Selector Grid */}
+            <div className="grid grid-cols-2 gap-3 pt-1">
+              <button
+                type="button"
+                onClick={() => setDirection("TO_BANK")}
+                className={`py-3.5 px-3 rounded-xl font-display font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition shadow-2xs ${
+                  direction === "TO_BANK"
+                    ? "bg-[#3D4A5C] text-white shadow-sm ring-2 ring-[#3D4A5C]/20"
+                    : "bg-[#FAF8F5] hover:bg-[#F4F1EA] text-[#665F55] border border-[#E4DFD3]"
+                }`}
+              >
+                <ArrowDown className="w-4 h-4 stroke-[2.5]" />
+                <span>TO BANK</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setDirection("TO_TRADING")}
+                className={`py-3.5 px-3 rounded-xl font-display font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition shadow-2xs ${
+                  direction === "TO_TRADING"
+                    ? "bg-[#EAE5DC] text-[#2B2721] shadow-sm ring-2 ring-[#937238]/30 border border-[#DFD9CE]"
+                    : "bg-[#FAF8F5] hover:bg-[#F4F1EA] text-[#665F55] border border-[#E4DFD3]"
+                }`}
+              >
+                <ArrowUp className="w-4 h-4 stroke-[2.5]" />
+                <span>TO TRADING</span>
+              </button>
+            </div>
+
+            {/* Status Message */}
+            {message && (
+              <div
+                className={`p-3.5 rounded-2xl text-xs font-mono font-bold animate-fadeIn ${
+                  message.startsWith("✅")
+                    ? "bg-[#E3EFEA] text-[#1D7A58] border border-[#BDE0D1]"
+                    : "bg-rose-50 text-rose-700 border border-rose-200"
+                }`}
+              >
+                {message}
+              </div>
+            )}
+
+            {/* Confirm Transfer Button */}
             <button
               type="button"
-              onClick={() => {
-                if (window.confirm("Reset demo bank and active trading balance back to $10,000.00?")) {
-                  onResetBalance();
-                }
-              }}
-              className="text-xs font-bold text-rose-600 hover:text-rose-700 underline cursor-pointer transition"
+              onClick={handleConfirmTransfer}
+              disabled={isProcessing}
+              className="w-full py-4 rounded-2xl bg-[#937238] hover:bg-[#81632E] active:bg-[#705526] disabled:opacity-50 text-white font-display font-black text-sm uppercase tracking-widest shadow-md cursor-pointer transition flex items-center justify-center gap-2 pt-4"
             >
-              Reset bank
+              {isProcessing ? "PROCESSING TRANSFER..." : "CONFIRM TRANSFER"}
             </button>
-          )}
-        </div>
-      </div>
-
-      {/* INTERNAL TRANSFER Card */}
-      <div className="bg-white border border-[#E5E0D5] rounded-3xl p-6 shadow-xs space-y-5">
-        <span className="font-display font-black text-sm tracking-widest text-[#2B2721] uppercase block">
-          INTERNAL TRANSFER
-        </span>
-
-        <div className="space-y-2">
-          <label className="text-[10px] font-mono font-bold tracking-widest text-[#665F55] uppercase block">
-            AMOUNT TO MOVE
-          </label>
-          <div className="bg-[#FAF8F5] border border-[#E4DFD3] rounded-2xl p-4 flex items-center justify-between focus-within:border-[#937238] focus-within:bg-white transition shadow-2xs">
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              placeholder="0.00"
-              value={transferAmount}
-              onChange={(e) => setTransferAmount(e.target.value)}
-              className="font-mono font-black text-2xl text-[#2B2721] bg-transparent focus:outline-none w-full placeholder:text-[#D4CEBF]"
-            />
-            <span className="font-display font-black text-sm text-[#2B2721] uppercase shrink-0 pl-2">
-              USD
-            </span>
           </div>
-        </div>
-
-        {/* Direction Selector Grid */}
-        <div className="grid grid-cols-2 gap-3 pt-1">
-          <button
-            type="button"
-            onClick={() => setDirection("TO_BANK")}
-            className={`py-3.5 px-3 rounded-xl font-display font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition shadow-2xs ${
-              direction === "TO_BANK"
-                ? "bg-[#3D4A5C] text-white shadow-sm ring-2 ring-[#3D4A5C]/20"
-                : "bg-[#FAF8F5] hover:bg-[#F4F1EA] text-[#665F55] border border-[#E4DFD3]"
-            }`}
-          >
-            <ArrowDown className="w-4 h-4 stroke-[2.5]" />
-            <span>TO BANK</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setDirection("TO_TRADING")}
-            className={`py-3.5 px-3 rounded-xl font-display font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition shadow-2xs ${
-              direction === "TO_TRADING"
-                ? "bg-[#EAE5DC] text-[#2B2721] shadow-sm ring-2 ring-[#937238]/30 border border-[#DFD9CE]"
-                : "bg-[#FAF8F5] hover:bg-[#F4F1EA] text-[#665F55] border border-[#E4DFD3]"
-            }`}
-          >
-            <ArrowUp className="w-4 h-4 stroke-[2.5]" />
-            <span>TO TRADING</span>
-          </button>
-        </div>
-
-        {/* Status Message */}
-        {message && (
-          <div
-            className={`p-3.5 rounded-2xl text-xs font-mono font-bold animate-fadeIn ${
-              message.startsWith("✅")
-                ? "bg-[#E3EFEA] text-[#1D7A58] border border-[#BDE0D1]"
-                : "bg-rose-50 text-rose-700 border border-rose-200"
-            }`}
-          >
-            {message}
-          </div>
-        )}
-
-        {/* Confirm Transfer Button */}
-        <button
-          type="button"
-          onClick={handleConfirmTransfer}
-          disabled={isProcessing}
-          className="w-full py-4 rounded-2xl bg-[#937238] hover:bg-[#81632E] active:bg-[#705526] disabled:opacity-50 text-white font-display font-black text-sm uppercase tracking-widest shadow-md cursor-pointer transition flex items-center justify-center gap-2 pt-4"
-        >
-          {isProcessing ? "PROCESSING TRANSFER..." : "CONFIRM TRANSFER"}
-        </button>
-      </div>
+        </>
+      )}
     </div>
   );
 }
